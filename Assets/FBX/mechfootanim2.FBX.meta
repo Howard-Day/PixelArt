@@ -1,0 +1,247 @@
+fileFormatVersion: 2
+guid: 125d8a7599ad90d42a98fdd8f558d672
+timeCreated: 1441315596
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Box002
+    100002: Box003
+    100004: Box004
+    100006: Cylinder001
+    100008: Cylinder002
+    100010: Cylinder003
+    100012: Dummy001
+    100014: Dummy002
+    100016: IK Chain001
+    100018: IK Chain002
+    100020: Line001
+    100022: //RootNode
+    100024: Object003
+    100026: Object004
+    100028: Object005
+    100030: Object006
+    100032: Object007
+    100034: Object008
+    100036: Object009
+    100038: Object010
+    100040: Object011
+    100042: Box007
+    100044: Object012
+    100046: Object013
+    100048: IK Chain003
+    400000: Box002
+    400002: Box003
+    400004: Box004
+    400006: Cylinder001
+    400008: Cylinder002
+    400010: Cylinder003
+    400012: Dummy001
+    400014: Dummy002
+    400016: IK Chain001
+    400018: IK Chain002
+    400020: Line001
+    400022: //RootNode
+    400024: Object003
+    400026: Object004
+    400028: Object005
+    400030: Object006
+    400032: Object007
+    400034: Object008
+    400036: Object009
+    400038: Object010
+    400040: Object011
+    400042: Box007
+    400044: Object012
+    400046: Object013
+    400048: IK Chain003
+    2300000: Box002
+    2300002: Box003
+    2300004: Box004
+    2300006: Cylinder001
+    2300008: Cylinder002
+    2300010: Cylinder003
+    2300012: Line001
+    2300014: Object003
+    2300016: Object004
+    2300018: Object005
+    2300020: Object006
+    2300022: Object007
+    2300024: Object008
+    2300026: Object009
+    2300028: Object010
+    2300030: Object011
+    2300032: Box007
+    2300034: Object012
+    2300036: Object013
+    3300000: Box002
+    3300002: Box003
+    3300004: Box004
+    3300006: Cylinder001
+    3300008: Cylinder002
+    3300010: Cylinder003
+    3300012: Line001
+    3300014: Object003
+    3300016: Object004
+    3300018: Object005
+    3300020: Object006
+    3300022: Object007
+    3300024: Object008
+    3300026: Object009
+    3300028: Object010
+    3300030: Object011
+    3300032: Box007
+    3300034: Object012
+    3300036: Object013
+    4300000: Line001
+    4300002: Cylinder001
+    4300004: Object004
+    4300006: Object005
+    4300008: Object006
+    4300010: Box003
+    4300012: Box004
+    4300014: Cylinder002
+    4300016: Cylinder003
+    4300018: Object003
+    4300020: Box002
+    4300022: Object008
+    4300024: Object007
+    4300026: Object009
+    4300028: Object011
+    4300030: Object010
+    4300032: Box007
+    4300034: Object013
+    4300036: Object012
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 0
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 2
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 31
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: IK Chain001
+        weight: 1
+      - path: IK Chain001/Box002
+        weight: 1
+      - path: IK Chain001/Box002/Object007
+        weight: 1
+      - path: IK Chain001/Box002/Object008
+        weight: 1
+      - path: IK Chain002
+        weight: 1
+      - path: IK Chain002/Object009
+        weight: 1
+      - path: IK Chain002/Object009/Object010
+        weight: 1
+      - path: IK Chain002/Object009/Object011
+        weight: 1
+      - path: Line001
+        weight: 1
+      - path: Line001/Box003
+        weight: 1
+      - path: Line001/Box003/Box004
+        weight: 1
+      - path: Line001/Box003/Box004/Cylinder002
+        weight: 1
+      - path: Line001/Box003/Cylinder003
+        weight: 1
+      - path: Line001/Box003/Object003
+        weight: 1
+      - path: Line001/Cylinder001
+        weight: 1
+      - path: Line001/Cylinder001/Object004
+        weight: 1
+      - path: Line001/Cylinder001/Object004/Dummy001
+        weight: 1
+      - path: Line001/Object005
+        weight: 1
+      - path: Line001/Object005/Object006
+        weight: 1
+      - path: Line001/Object005/Object006/Dummy002
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

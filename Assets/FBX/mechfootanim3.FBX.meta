@@ -1,0 +1,265 @@
+fileFormatVersion: 2
+guid: 6969dfb147457044cb8613b9c08d8626
+timeCreated: 1441955361
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Box002
+    100002: Box003
+    100004: Box004
+    100006: Cylinder001
+    100008: Cylinder002
+    100010: Dummy001
+    100012: Dummy002
+    100014: IK Chain001
+    100016: IK Chain002
+    100018: Line001
+    100020: //RootNode
+    100022: Object003
+    100024: Object004
+    100026: Object005
+    100028: Object006
+    100030: Object007
+    100032: Object008
+    100034: Object009
+    100036: Object010
+    100038: Object011
+    100040: Line002
+    100042: Object012
+    100044: Object013
+    100046: Cylinder003
+    100048: DRIVEFLARE01
+    100050: DRIVEFLARE02
+    100052: DRIVEFLARE03
+    100054: DRIVEFLARE04
+    100056: IK Chain003
+    400000: Box002
+    400002: Box003
+    400004: Box004
+    400006: Cylinder001
+    400008: Cylinder002
+    400010: Dummy001
+    400012: Dummy002
+    400014: IK Chain001
+    400016: IK Chain002
+    400018: Line001
+    400020: //RootNode
+    400022: Object003
+    400024: Object004
+    400026: Object005
+    400028: Object006
+    400030: Object007
+    400032: Object008
+    400034: Object009
+    400036: Object010
+    400038: Object011
+    400040: Line002
+    400042: Object012
+    400044: Object013
+    400046: Cylinder003
+    400048: DRIVEFLARE01
+    400050: DRIVEFLARE02
+    400052: DRIVEFLARE03
+    400054: DRIVEFLARE04
+    400056: IK Chain003
+    2300000: Box002
+    2300002: Box003
+    2300004: Box004
+    2300006: Cylinder001
+    2300008: Cylinder002
+    2300010: Line001
+    2300012: Object003
+    2300014: Object004
+    2300016: Object005
+    2300018: Object006
+    2300020: Object007
+    2300022: Object008
+    2300024: Object009
+    2300026: Object010
+    2300028: Object011
+    2300030: Line002
+    2300032: Object012
+    2300034: Object013
+    2300036: Cylinder003
+    2300038: DRIVEFLARE01
+    2300040: DRIVEFLARE02
+    2300042: DRIVEFLARE03
+    2300044: DRIVEFLARE04
+    3300000: Box002
+    3300002: Box003
+    3300004: Box004
+    3300006: Cylinder001
+    3300008: Cylinder002
+    3300010: Line001
+    3300012: Object003
+    3300014: Object004
+    3300016: Object005
+    3300018: Object006
+    3300020: Object007
+    3300022: Object008
+    3300024: Object009
+    3300026: Object010
+    3300028: Object011
+    3300030: Line002
+    3300032: Object012
+    3300034: Object013
+    3300036: Cylinder003
+    3300038: DRIVEFLARE01
+    3300040: DRIVEFLARE02
+    3300042: DRIVEFLARE03
+    3300044: DRIVEFLARE04
+    4300000: Line001
+    4300002: Cylinder001
+    4300004: Object004
+    4300006: Object005
+    4300008: Object006
+    4300010: Box003
+    4300012: Box004
+    4300014: Cylinder002
+    4300016: Object003
+    4300018: Box002
+    4300020: Object008
+    4300022: Object007
+    4300024: Object009
+    4300026: Object011
+    4300028: Object010
+    4300030: Line002
+    4300032: Object013
+    4300034: Object012
+    4300036: DRIVEFLARE01
+    4300038: DRIVEFLARE02
+    4300040: DRIVEFLARE04
+    4300042: DRIVEFLARE03
+    4300044: Cylinder003
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 2
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 31
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: IK Chain001
+        weight: 1
+      - path: IK Chain001/Box002
+        weight: 1
+      - path: IK Chain001/Box002/Object007
+        weight: 1
+      - path: IK Chain001/Box002/Object008
+        weight: 1
+      - path: IK Chain002
+        weight: 1
+      - path: IK Chain002/Object009
+        weight: 1
+      - path: IK Chain002/Object009/Object010
+        weight: 1
+      - path: IK Chain002/Object009/Object011
+        weight: 1
+      - path: Line001
+        weight: 1
+      - path: Line001/Box003
+        weight: 1
+      - path: Line001/Box003/Box004
+        weight: 1
+      - path: Line001/Box003/Box004/Cylinder002
+        weight: 1
+      - path: Line001/Box003/Object003
+        weight: 1
+      - path: Line001/Cylinder001
+        weight: 1
+      - path: Line001/Cylinder001/Object004
+        weight: 1
+      - path: Line001/Cylinder001/Object004/Dummy001
+        weight: 1
+      - path: Line001/Object005
+        weight: 1
+      - path: Line001/Object005/Object006
+        weight: 1
+      - path: Line001/Object005/Object006/Dummy002
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
