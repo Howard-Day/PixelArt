@@ -49,10 +49,10 @@ public class AnimSpeed : MonoBehaviour {
 
 		if (StepAnimation) {
 			if(DemoSceneControl.Play){
-				if(PixelArt.frames % Mathf.CeilToInt(PixelArt.FPS/FPS/Speed) == 0)
+				if(PixelArt.framecount % Mathf.FloorToInt(PixelArt.FPS/FPS) == 0)
 				{
 					StepAnim (FPS,currentAnimLength);
-					stepTime += animationStepNormalized;
+					stepTime += animationStepNormalized*Speed;
 					if(stepTime > 1)
 						stepTime -= 1;
 					//Debug.Log (currentAnim + " "+  stepTime +" "+ 1/PixelArt.FPS);

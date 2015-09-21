@@ -43,17 +43,12 @@
 				float sliceSize = 1.0 / width; // space of 1 slice
 				float slicePixelSize = sliceSize / width; // space of 1 pixel
 				float sliceInnerSize = slicePixelSize * innerWidth; // space of width pixels
-				float zSlice0 = min(floor(uv.z * innerWidth), innerWidth);
-				float zSlice1 = min(zSlice0 + 1.0, innerWidth);
+				//float zSlice0 = min(floor(uv.z * innerWidth), innerWidth);
+				float zSlice1 = min(floor(uv.z * innerWidth) + 1.0, innerWidth);
 				float xOffset = slicePixelSize * 0.5 + uv.x * sliceInnerSize;
-				float s0 = xOffset + (zSlice0 * sliceSize);
 				float s1 = xOffset + (zSlice1 * sliceSize);
-				float yPixelSize = sliceSize;
-				float yOffset = yPixelSize * 0.5 + uv.y * (1.0 - yPixelSize);
-				float4 slice0Color = tex2D(tex, float2(s0, uv.y));
-				float4 slice1Color = tex2D(tex, float2(s1, uv.y));
-				float zOffset = frac(uv.z * innerWidth);
-				float4 result = lerp(slice0Color, slice1Color, zOffset);
+				float4 sliceColor = tex2Dbias(tex, float4(s1, uv.y,0,0));
+				float4 result = sliceColor;
 				return result;
 				}
 				
@@ -68,9 +63,9 @@
 //				float s0 = xOffset + (zSlice0 * sliceSize);
 //				float s1 = xOffset + (zSlice1 * sliceSize);
 //				vec4 slice0Color = texture2D(texture, vec2(s0, uv.y));
-//				vec4 slice1Color = texture2D(texture, vec2(s1, uv.y));
+//				vec4 sliceColor = texture2D(texture, vec2(s1, uv.y));
 //				float zOffset = mod(uv.z * width, 1.0);
-//				vec4 result = mix(slice0Color, slice1Color, zOffset);
+//				vec4 result = mix(slice0Color, sliceColor, zOffset);
 //				return result;			
 				
 				

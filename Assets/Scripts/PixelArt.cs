@@ -18,6 +18,7 @@ public class PixelArt : MonoBehaviour
 	public LayerMask BufferLayer;
 	public static int BufferAA = 2;
 	public Texture2D defaultLUT;
+	RenderTexture AABuffer;
 	RenderTexture Buffer;
 	Camera RenderCam;
 	float OutlinePixelScaling;
@@ -25,13 +26,14 @@ public class PixelArt : MonoBehaviour
 	GameObject BufferPlane;
 	Material BufferMat;
 	public static float FPS = 60f; 
-
-	float updateInterval = 0.5F;
+	
+	float updateInterval = 0.25F;
 	float accum   = 0; // FPS accumulated over the interval
-	public static int   frames  = 0; // Frames drawn over the interval
+	public static int frames  = 0; // Frames drawn over the interval
+	public static int framecount  = 0; // total framecount!
 	float timeleft; // Left time for current interval
-
-
+	
+	
 	void Start(){
 		CleanBuffers ();
 		RenderCam = gameObject.GetComponent<Camera> ();
@@ -54,23 +56,30 @@ public class PixelArt : MonoBehaviour
 		RenderCam = gameObject.GetComponent<Camera> ();
 		Buffer = new RenderTexture (horizontalResolution, verticalResolution, 24);
 		Buffer.filterMode = FilterMode.Point;
-		Buffer.antiAliasing = BufferAA;
-		Buffer.name = "RetroPixel Buffer!";
+		//Buffer.antiAliasing = BufferAA;
+		Buffer.name = "Pixel Buffer!";
 		RenderCam.targetTexture = Buffer; 
+		if (BufferAA > 1) {
+			AABuffer = new RenderTexture(horizontalResolution*3,verticalResolution*3,24);
+			AABuffer.filterMode = FilterMode.Point;
+			AABuffer.antiAliasing = BufferAA;
+			Buffer.name = "AA Pixel Buffer!";
+			RenderCam.targetTexture = AABuffer;
+		}
 		if(BufferMat)
 			BufferMat.mainTexture = Buffer;
 		OldAA = BufferAA;
 		OldSize = new Vector2 (horizontalResolution,verticalResolution);
-
+		
 	}
-
+	
 	void UpdateBufferPlane(){
 		float pos = (BufferCam.nearClipPlane + 0.01f);
 		BufferPlane.transform.localPosition = pos*Vector3.forward;
 		float h = Mathf.Tan(BufferCam.fieldOfView*Mathf.Deg2Rad*0.5f)*pos*2f;
 		BufferPlane.transform.localScale = new Vector3(h*BufferCam.aspect,h,0f);
 	}
-
+	
 	void RegisterBuffer()
 	{
 		CleanBuffers ();
@@ -99,11 +108,11 @@ public class PixelArt : MonoBehaviour
 			BufferMat.SetTexture ("_LUTTex", defaultLUT);
 		BufferMat.SetFloat ("_LUTSize", 32);
 		BufferPlane.GetComponent<Renderer> ().material = BufferMat;
-
+		
 		UpdateBufferPlane ();
 	}
 	
-
+	
 	
 	public void OnPostRender()
 	{
@@ -124,7 +133,7 @@ public class PixelArt : MonoBehaviour
 		
 		horizontalResolution = Mathf.Clamp (horizontalResolution, 1, 2048);
 		verticalResolution = Mathf.Clamp (verticalResolution, 1, 2048);
-
+		
 		if (!BufferCam) {
 			RegisterBuffer ();
 		}
@@ -132,7 +141,7 @@ public class PixelArt : MonoBehaviour
 			UpdateRTT ();
 			UpdateBufferPlane ();
 		}
-
+		
 		if (pixelScale == 5)
 			OutlinePixelScaling = 4f;
 		if (pixelScale == 4)
@@ -144,26 +153,26 @@ public class PixelArt : MonoBehaviour
 		if (Application.platform == RuntimePlatform.OSXWebPlayer || Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.WebGLPlayer) {
 			OutlinePixelScaling *= -.05f;	
 		} 
-		OutlinePixelScaling *= 1f;	
+		OutlinePixelScaling *= 1.125f;	
 		if(BufferAA == 1)
 			OutlinePixelScaling *= 1.125f;	
 		if(!isOrthographic)
-				Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth / 2f )* (768f/Screen.height)); 
-			if(isOrthographic)
-			{	
-				
+			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth / 2f )* (768f/Screen.height)); 
+		if(isOrthographic)
+		{	
+			
 			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 1600 )* (768f/Screen.height) * (Camera.main.orthographicSize/12)*OutlinePixelScaling ); 
-				Shader.SetGlobalFloat("_DitherScale", 24f/2*(768f/Screen.height)*pixelScale  );
-			}
+			Shader.SetGlobalFloat("_DitherScale", 24f/2*(768f/Screen.height)*pixelScale  );
+		}
 		#if UNITY_EDITOR
-			if(!Application.isPlaying && isOrthographic)
-				Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 2f )* (768f/Screen.height));
+		if(!Application.isPlaying && isOrthographic)
+			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 2f )* (768f/Screen.height));
 		#endif
-
+		
 		timeleft -= Time.deltaTime;
 		accum += Time.timeScale/Time.deltaTime;
 		++frames;
-		
+		++framecount;
 		// Interval ended - update GUI text and start new interval
 		if( timeleft <= 0.0 )
 		{
@@ -175,7 +184,10 @@ public class PixelArt : MonoBehaviour
 			accum = 0.0F;
 			frames = 0;
 		}
-
+		if (BufferAA > 1) {
+			Graphics.Blit (AABuffer, Buffer);
+		}
+		
 	}
 	void OnApplicationQuit(){
 		Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 2f )* (768f/Screen.height));

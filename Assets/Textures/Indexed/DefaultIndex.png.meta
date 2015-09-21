@@ -19,7 +19,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: .25
     normalMapFilter: 0
-  isReadable: 1
+  isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
   cubemapConvolution: 0
@@ -36,7 +36,7 @@ TextureImporter:
   nPOTScale: 1
   lightmap: 0
   rGBM: 2
-  compressionQuality: 25
+  compressionQuality: -1
   spriteMode: 0
   spriteExtrude: 1
   spriteMeshType: 1

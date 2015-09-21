@@ -64,9 +64,9 @@
  					///NdotL = lerp(0,NdotL,shadow);
                     // Put the vector maths in brackets so it doesn't try and do scalar-vector maths where it doesn't need to.
                     fixed4 c;
-                    fixed2 newCoords = fixed2(NdotL*.75+.25,i.uv.y);
+                    fixed2 newCoords = fixed2(NdotL,i.uv.y);
                     fixed3 colors = tex2D(_MainTex, newCoords).rgb;
-                    fixed3 amb = tex2D(_MainTex, fixed2(i.color.g*UNITY_LIGHTMODEL_AMBIENT.r*.75,i.uv.y)).rgb;
+                    fixed3 amb = tex2D(_MainTex, fixed2(i.color.g*UNITY_LIGHTMODEL_AMBIENT.r,i.uv.y)).rgb;
                     c.rgb = (colors * _LightColor0.rgb);
                     c.rgb = lerp(amb.rgb,c.rgb,shadow)* _Color.rgb;
                     //c.rgb = i.color.rrr;
@@ -134,7 +134,7 @@
                 // Transformed from -1 to 1 range to 0 - 1 range so it can use the full dimensions of the ramp texture.
                 fixed NdotL = dot(i.normal, i.lightDir) * 0.5 + 0.5;
                     
-                fixed2 newCoords = fixed2(NdotL*i.color.r*_OutlineColor.r*.75,i.uv.y);
+                fixed2 newCoords = fixed2(NdotL*i.color.r*_OutlineColor.r,i.uv.y);
                 fixed4 c = tex2D (_MainTex, newCoords);
                 c.rgb *= _Color.rgb;
                	c.a = _OutlineColor.a;

@@ -1,15 +1,39 @@
 fileFormatVersion: 2
-guid: 1b2478777bbe7184c8505d7c465ea1f3
-timeCreated: 1442454768
+guid: b9acb70054cc4f242ab709cec78de62b
+timeCreated: 1442731090
 licenseType: Pro
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Box001
+    100000: Box003
+    100002: DRIVEFLARE01
+    100004: DRIVEFLARE02
+    100006: DRIVEFLARE03
+    100008: //RootNode
+    100010: Object001
+    100012: Sky001
+    400000: Box003
+    400002: DRIVEFLARE01
+    400004: DRIVEFLARE02
+    400006: DRIVEFLARE03
+    400008: //RootNode
+    400010: Object001
+    400012: Sky001
+    2300000: Box003
+    2300002: DRIVEFLARE01
+    2300004: DRIVEFLARE02
+    2300006: DRIVEFLARE03
+    2300008: Object001
+    3300000: Box003
+    3300002: DRIVEFLARE01
+    3300004: DRIVEFLARE02
+    3300006: DRIVEFLARE03
+    3300008: Object001
+    4300000: Box003
+    4300002: Object001
+    4300004: DRIVEFLARE03
+    4300006: DRIVEFLARE02
+    4300008: DRIVEFLARE01
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -41,7 +65,7 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 0
+    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     secondaryUVAngleDistortion: 8

@@ -74,7 +74,7 @@ public class DemoSceneControl : MonoBehaviour {
 			LightSpinner.Rotate = false;
 
 		if (AA.Active)
-			PixelArt.BufferAA = 8;
+			PixelArt.BufferAA = 4;
 		else
 			PixelArt.BufferAA = 1;
 

@@ -5,10 +5,9 @@
 		
     }
     SubShader {
-            Tags { "RenderType"="Transparent"  "Queue" = "Transparent" }
-            Blend DstColor OneMinusSrcAlpha //DstColor Zero
-            Zwrite Off
-            ZTest Always
+             Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
+             ZTest Always Lighting Off Cull Off Fog { Mode Off } Blend DstColor SrcColor
+             LOD 110
             
             Pass{
             CGPROGRAM
@@ -25,16 +24,19 @@
                 struct a2v  {
                     float4 vertex : POSITION;
                     float4 texcoord : TEXCOORD0;
+                    float4 color : COLOR;
                 };
  
                 struct v2f  {
                     float4 pos : SV_POSITION;
                     float3 worldPos : TEXCOORD0;       // Made this a float, fixed sometimes isn't precise enough for UVs.
+                    fixed4 color : COLOR;
                 };
  
                 v2f vert(a2v  i){
                     v2f o; 
                     o.pos = mul(UNITY_MATRIX_MVP, i.vertex);
+                    o.color = i.color;
                     o.worldPos = mul(_Object2World, i.vertex);
                     return o;
                 }
@@ -47,7 +49,13 @@
                     fixed3 dither = tex2D(_MainTex, newCoords/_DitherScale).rgb;
                     c.rgb = dither*_Color.rgb;
                     c.a = _Color.a;
-                    return c;
+                
+                                         
+                     float4 final;                
+                     final.rgb = i.color.rgb * c.rgb * 2;
+                     final.a = i.color.a * c.a;
+                     return lerp(float4(0.5f,0.5f,0.5f,0.5f), final, final.a);
+                    
                 }
             ENDCG
         }    

@@ -4,7 +4,7 @@ using System.Collections;
 public class Rotater : MonoBehaviour {
 	[HideInInspector]
 	public bool Rotate = true;
-
+	//public bool sourceParentRotationSnap = false;
 	public bool Smooth = true;
 	public float Speed = 1f;
 	public int Skip = 120;
@@ -12,8 +12,10 @@ public class Rotater : MonoBehaviour {
 	public bool debug;
 	int Framecounter;
 	Vector3 RotateAxis;
+	Vector3 ParentRotation;
 	// Update is called once per frame
 	void Update () {
+
 
 
 		if (WorldAxis)
@@ -24,7 +26,7 @@ public class Rotater : MonoBehaviour {
 		if (Rotate) {
 
 			if (!Smooth) {
-				if (Framecounter % Skip == 0) {
+				if (PixelArt.framecount % Skip == 0) {
 					transform.RotateAround (transform.position, RotateAxis, Speed);
 				}
 			} else {
@@ -38,6 +40,5 @@ public class Rotater : MonoBehaviour {
 
 		if (debug)
 			Debug.Log (Rotate);
-		Framecounter ++;
 	}
 }
