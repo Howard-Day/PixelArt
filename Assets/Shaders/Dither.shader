@@ -6,7 +6,7 @@
     }
     SubShader {
              Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
-             ZTest Always Lighting Off Cull Off Fog { Mode Off } Blend DstColor SrcColor
+             ZWrite Off ZTest Always Lighting Off Cull Off Fog { Mode Off } Blend DstColor SrcColor
              LOD 110
             
             Pass{

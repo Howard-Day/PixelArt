@@ -6,7 +6,7 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class PixelArt : MonoBehaviour
 {
-	public static readonly int MAX_NUM_COLORS = 8;
+	//public static readonly int MAX_NUM_COLORS = 8;
 	public int pixelScale = 1;
 	public bool isOrthographic = false;
 	public float shaderOutlineWidth = 1;
@@ -18,6 +18,7 @@ public class PixelArt : MonoBehaviour
 	public LayerMask BufferLayer;
 	public static int BufferAA = 2;
 	public Texture2D defaultLUT;
+	public Texture2D ditherTex; 
 	RenderTexture AABuffer;
 	RenderTexture Buffer;
 	Camera RenderCam;
@@ -27,7 +28,7 @@ public class PixelArt : MonoBehaviour
 	Material BufferMat;
 	public static float FPS = 60f; 
 	
-	float updateInterval = 0.25F;
+	float updateInterval = .5f;
 	float accum   = 0; // FPS accumulated over the interval
 	public static int frames  = 0; // Frames drawn over the interval
 	public static int framecount  = 0; // total framecount!
@@ -35,10 +36,15 @@ public class PixelArt : MonoBehaviour
 	
 	
 	void Start(){
+		Application.targetFrameRate = 60;
+		QualitySettings.vSyncCount = 0;
+		FPS = 60;
 		CleanBuffers ();
 		RenderCam = gameObject.GetComponent<Camera> ();
 		RegisterBuffer ();
 		timeleft = updateInterval; 
+		if(ditherTex != null)
+			Shader.SetGlobalTexture ("_DitherTex",ditherTex);
 	}
 	void CleanBuffers(){
 		if (transform.FindChild ("Buffer Camera"))
@@ -150,24 +156,38 @@ public class PixelArt : MonoBehaviour
 			OutlinePixelScaling = 1.125f;
 		if (pixelScale == 2)
 			OutlinePixelScaling = .875f;
+		if (pixelScale == 1)
+			OutlinePixelScaling = .5f;
 		if (Application.platform == RuntimePlatform.OSXWebPlayer || Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.WebGLPlayer) {
 			OutlinePixelScaling *= -.05f;	
 		} 
 		OutlinePixelScaling *= 1.125f;	
 		if(BufferAA == 1)
-			OutlinePixelScaling *= 1.125f;	
-		if(!isOrthographic)
-			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth / 2f )* (768f/Screen.height)); 
+			OutlinePixelScaling *= .9f;	
+		Shader.SetGlobalFloat("_DitherScale", 24f/2*(768f/Screen.height)*pixelScale  );
+		if (!isOrthographic) {
+			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth / 2f) * (768f / Screen.height)); 
+		}
 		if(isOrthographic)
 		{	
 			
 			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 1600 )* (768f/Screen.height) * (Camera.main.orthographicSize/12)*OutlinePixelScaling ); 
-			Shader.SetGlobalFloat("_DitherScale", 24f/2*(768f/Screen.height)*pixelScale  );
+			Shader.SetGlobalVector("_DitherScale", new Vector4(Screen.width/256f/pixelScale, Screen.height/256f/pixelScale,0,0) );
+			//Debug.Log (Screen.width/256f);
 		}
 		#if UNITY_EDITOR
 		if(!Application.isPlaying && isOrthographic)
 			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 2f )* (768f/Screen.height));
 		#endif
+
+		//Debug.Log (FPS+" is the FPS");
+		if (BufferAA > 1) {
+			Graphics.Blit (AABuffer, Buffer);
+		}
+		
+	}
+	void Update()
+	{
 		
 		timeleft -= Time.deltaTime;
 		accum += Time.timeScale/Time.deltaTime;
@@ -178,16 +198,17 @@ public class PixelArt : MonoBehaviour
 		{
 			// display two fractional digits (f2 format)
 			FPS = accum/frames;
-			if( FPS == 0)
-				FPS = 60;
+			//if( FPS > 60)
+			FPS = 60f;
+			//Debug.Log("FPS = " +1f/Time.deltaTime +" VS Accumulated FPS: " +FPS);
+			//FPS = 1f/Time.deltaTime;
 			timeleft = updateInterval;
 			accum = 0.0F;
 			frames = 0;
 		}
-		if (BufferAA > 1) {
-			Graphics.Blit (AABuffer, Buffer);
-		}
-		
+		//FPS = (1f/Time.deltaTime);
+		//	Debug.Log("FPS = " +1f/Time.deltaTime);
+
 	}
 	void OnApplicationQuit(){
 		Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 2f )* (768f/Screen.height));

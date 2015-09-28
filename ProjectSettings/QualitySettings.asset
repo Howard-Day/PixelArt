@@ -14,6 +14,7 @@ QualitySettings:
     shadowProjection: 1
     shadowCascades: 1
     shadowDistance: 15
+    shadowNearPlaneOffset: 2
     shadowCascade2Split: .333333343
     shadowCascade4Split: {x: .0666666701, y: .200000003, z: .466666669}
     blendWeights: 1
@@ -31,23 +32,24 @@ QualitySettings:
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Fantastic
-    pixelLightCount: 4
+    pixelLightCount: 2
     shadows: 1
     shadowResolution: 3
-    shadowProjection: 1
+    shadowProjection: 0
     shadowCascades: 4
     shadowDistance: 250
+    shadowNearPlaneOffset: 200
     shadowCascade2Split: .739252806
-    shadowCascade4Split: {x: .351864398, y: .474890113, z: .738345504}
+    shadowCascade4Split: {x: .218290418, y: .28716436, z: .442316771}
     blendWeights: 4
     textureQuality: 0
-    anisotropicTextures: 2
+    anisotropicTextures: 1
     antiAliasing: 0
     softParticles: 0
     softVegetation: 1
-    realtimeReflectionProbes: 1
+    realtimeReflectionProbes: 0
     billboardsFaceCameraPosition: 1
-    vSyncCount: 1
+    vSyncCount: 0
     lodBias: 2
     maximumLODLevel: 0
     particleRaycastBudget: 4096

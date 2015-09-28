@@ -9,7 +9,7 @@ public class AnimSpeed : MonoBehaviour {
 	[Space(1)]
 	[Header ("Force Step Animation, and if so, at what FPS?")]
 	public bool StepAnimation = false;
-	public int FPS = 15;
+	public int FrameRate = 15;
 
 	Animation anim;
 	string currentAnim;
@@ -43,15 +43,15 @@ public class AnimSpeed : MonoBehaviour {
 
 
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		if (anim [anim.clip.name].weight < .1f)
 			FindActiveClip ();
 
 		if (StepAnimation) {
 			if(DemoSceneControl.Play){
-				if(PixelArt.framecount % Mathf.FloorToInt(PixelArt.FPS/FPS) == 0)
+				if(PixelArt.framecount % Mathf.Round((1/Time.deltaTime)/FrameRate) == 0)
 				{
-					StepAnim (FPS,currentAnimLength);
+					StepAnim (FrameRate,currentAnimLength);
 					stepTime += animationStepNormalized*Speed;
 					if(stepTime > 1)
 						stepTime -= 1;

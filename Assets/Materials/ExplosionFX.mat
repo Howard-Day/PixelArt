@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: upload
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: ExplosionFX
+  m_Shader: {fileID: 4800000, guid: dbd73cc8d1885c944b7a9a8a02d01387, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
@@ -19,7 +19,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 188eff8c127d5cf44902781dba6ac558, type: 3}
+          m_Texture: {fileID: 2800000, guid: fb728942e58731447837eeeed9658418, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -127,6 +127,22 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _InvFade
+        second: 1
+      data:
+        first:
+          name: _AlphaClipOffset
+        second: .100000001
+      data:
+        first:
+          name: _AlphaDither
+        second: .289999992
+      data:
+        first:
+          name: _ColorDither
+        second: .300000012
     m_Colors:
       data:
         first:
@@ -135,4 +151,8 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .588235319, g: .588235319, b: .588235319, a: 1}
+        second: {r: .57099998, g: .57099998, b: .57099998, a: 1}
+      data:
+        first:
+          name: _TintColor
+        second: {r: .5, g: .5, b: .5, a: .5}

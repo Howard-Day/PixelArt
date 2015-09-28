@@ -9,13 +9,14 @@ SubShader {
    Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
    LOD 100
  
+	//Blend One Zero, Zero One
+   Blend OneMinusDstColor One, One Zero
    BlendOp Add
-   Blend OneMinusDstColor One, One Zero // screen
    //Blend SrcAlpha One, One Zero // linear dodge
-   ZWrite Off
+   ZWrite off
    //AlphaTest Greater .01
-   ZTest Always
-   
+   ZTest Greater
+   Offset 100000,100000
    Cull Off
    Pass {
      CGPROGRAM
@@ -45,7 +46,7 @@ SubShader {
          v2f o;
          o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
          o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
-         o.color = v.color;
+         o.color = v.color*2;
          return o;
        }
      

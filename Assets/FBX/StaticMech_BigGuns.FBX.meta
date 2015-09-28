@@ -22,6 +22,8 @@ ModelImporter:
     100028: Object009
     100030: Object010
     100032: Object011
+    100034: Box007
+    100036: Cylinder002
     400000: Box002
     400002: Box003
     400004: Box004
@@ -39,6 +41,8 @@ ModelImporter:
     400028: Object009
     400030: Object010
     400032: Object011
+    400034: Box007
+    400036: Cylinder002
     2300000: Box002
     2300002: Box003
     2300004: Box004
@@ -55,6 +59,8 @@ ModelImporter:
     2300026: Object009
     2300028: Object010
     2300030: Object011
+    2300032: Box007
+    2300034: Cylinder002
     3300000: Box002
     3300002: Box003
     3300004: Box004
@@ -71,6 +77,8 @@ ModelImporter:
     3300026: Object009
     3300028: Object010
     3300030: Object011
+    3300032: Box007
+    3300034: Cylinder002
     4300000: Box002
     4300002: Cylinder001
     4300004: Line001
@@ -87,6 +95,8 @@ ModelImporter:
     4300026: Object010
     4300028: Object011
     4300030: Box004
+    4300032: Box007
+    4300034: Cylinder002
   materials:
     importMaterials: 1
     materialName: 0
@@ -126,10 +136,10 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 180
+    normalSmoothAngle: 12
     splitTangentsAcrossUV: 0
     normalImportMode: 0
-    tangentImportMode: 0
+    tangentImportMode: 1
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -143,8 +153,10 @@ ModelImporter:
     legStretch: .0500000007
     feetSpacing: 0
     rootMotionBoneName: 
+    hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 0
+  humanoidOversampling: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

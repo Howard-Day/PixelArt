@@ -29,9 +29,6 @@ public class DemoSceneControl : MonoBehaviour {
 	public Switch DPaint;
 	public Switch MIsland;
 
-	[Header("Dithering")]
-	public GameObject DitherPlane;
-
 	[Header("Indexes")]
 	public Texture2D IndexedDefault;
 	public Texture2D IndexedDOOM;
@@ -59,14 +56,15 @@ public class DemoSceneControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		PixelControl = gameObject.GetComponent<PixelArt> ();
+		Shader.DisableKeyword ("DITHER_ON");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Dither.Active)
-			DitherPlane.SetActive (true);
+			Shader.DisableKeyword ("DITHER_OFF");
 		else
-			DitherPlane.SetActive (false);
+			Shader.EnableKeyword ("DITHER_OFF");
 
 		if (SpinLight.Active)
 			LightSpinner.Rotate = true;
@@ -74,7 +72,7 @@ public class DemoSceneControl : MonoBehaviour {
 			LightSpinner.Rotate = false;
 
 		if (AA.Active)
-			PixelArt.BufferAA = 4;
+			PixelArt.BufferAA = 2;
 		else
 			PixelArt.BufferAA = 1;
 
@@ -97,11 +95,11 @@ public class DemoSceneControl : MonoBehaviour {
 
 
 		if(!OutlineToggle.Active)
-			Shader.SetGlobalFloat ("_OutlineWidth", 0); 
-		if (PixelToggle.Active)
-			PixelControl.enabled = true;
-		else
-			PixelControl.enabled = false;
+			Shader.SetGlobalFloat ("_OutlineWidth", 0);
+		if (!PixelToggle.Active)
+			PixelControl.pixelScale = 1;
+
+
 		if (ShadowToggle.Active)
 			SceneLight.shadows = LightShadows.Hard;
 		else
@@ -345,7 +343,7 @@ public class DemoSceneControl : MonoBehaviour {
 		
 		if (!IndexColors.Active){
 			PixelArt.IndexLUT = Straight;
-			DitherPlane.SetActive (false);
+			Shader.DisableKeyword ("DITHER");
 		}
 	}
 }

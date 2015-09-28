@@ -24,6 +24,16 @@ ModelImporter:
     100032: Object011
     100034: Cylinder005
     100036: Box010
+    100038: Box005
+    100040: Box006
+    100042: Box007
+    100044: Cylinder002
+    100046: Cylinder003
+    100048: Off
+    100050: Off001
+    100052: On
+    100054: Plane001
+    100056: Sky001
     400000: Box002
     400002: Box003
     400004: Box004
@@ -43,6 +53,16 @@ ModelImporter:
     400032: Object011
     400034: Cylinder005
     400036: Box010
+    400038: Box005
+    400040: Box006
+    400042: Box007
+    400044: Cylinder002
+    400046: Cylinder003
+    400048: Off
+    400050: Off001
+    400052: On
+    400054: Plane001
+    400056: Sky001
     2300000: Box002
     2300002: Box003
     2300004: Box004
@@ -61,6 +81,15 @@ ModelImporter:
     2300030: Object011
     2300032: Cylinder005
     2300034: Box010
+    2300036: Box005
+    2300038: Box006
+    2300040: Box007
+    2300042: Cylinder002
+    2300044: Cylinder003
+    2300046: Off
+    2300048: Off001
+    2300050: On
+    2300052: Plane001
     3300000: Box002
     3300002: Box003
     3300004: Box004
@@ -79,6 +108,15 @@ ModelImporter:
     3300030: Object011
     3300032: Cylinder005
     3300034: Box010
+    3300036: Box005
+    3300038: Box006
+    3300040: Box007
+    3300042: Cylinder002
+    3300044: Cylinder003
+    3300046: Off
+    3300048: Off001
+    3300050: On
+    3300052: Plane001
     4300000: Box002
     4300002: Cylinder001
     4300004: Line001
@@ -97,6 +135,15 @@ ModelImporter:
     4300030: Cylinder004
     4300032: Cylinder005
     4300034: Box010
+    4300036: Box007
+    4300038: Box005
+    4300040: On
+    4300042: Off
+    4300044: Box006
+    4300046: Cylinder002
+    4300048: Cylinder003
+    4300050: Off001
+    4300052: Plane001
   materials:
     importMaterials: 1
     materialName: 0
@@ -136,8 +183,8 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 60
-    splitTangentsAcrossUV: 1
+    normalSmoothAngle: 12
+    splitTangentsAcrossUV: 0
     normalImportMode: 0
     tangentImportMode: 1
   importAnimation: 1
@@ -153,8 +200,10 @@ ModelImporter:
     legStretch: .0500000007
     feetSpacing: 0
     rootMotionBoneName: 
+    hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 0
+  humanoidOversampling: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
