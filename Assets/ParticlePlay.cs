@@ -24,7 +24,7 @@ public class ParticlePlay : MonoBehaviour {
 		} 
 		else {
 			if(steppedSimulate){
-				if(PixelArt.framecount % Mathf.Round((1/Time.deltaTime)/FrameRate) == 0)
+				if(PixelArt.framecount % Mathf.Round(PixelArt.FPS/FrameRate) == 0)
 				{
 				foreach(ParticleSystem emitter in emitters){
 						emitter.playbackSpeed = 1*(PixelArt.FPS/FrameRate);

@@ -62,6 +62,7 @@ SubShader {
 		#if DITHER_ON
 			dither = tex2D(_DitherTex,i.screenPos*_DitherScale).r;// _Color.rgb; 
 			dither -= .5;
+			dither *= .05;			
 		#endif
  					
          col.r = lerp(col.r,col.g,1-i.color.a);

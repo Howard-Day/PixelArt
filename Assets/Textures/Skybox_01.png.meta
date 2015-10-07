@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: 478a952a472f88241bc3a525afd8a4ea
-timeCreated: 1442997444
+guid: 8c037cad9a696ef44b9a120b2e6ba9f7
+timeCreated: 1443510922
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -46,7 +46,7 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 0
-  textureType: -1
+  textureType: 5
   buildTargetSettings: []
   spriteSheet:
     sprites: []

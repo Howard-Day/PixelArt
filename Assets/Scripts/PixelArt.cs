@@ -10,6 +10,7 @@ public class PixelArt : MonoBehaviour
 	public int pixelScale = 1;
 	public bool isOrthographic = false;
 	public float shaderOutlineWidth = 1;
+	public static bool enableOutlines = true; 
 	public int horizontalResolution = 160;
 	public int verticalResolution = 200;
 	public bool setManually = false;
@@ -17,8 +18,11 @@ public class PixelArt : MonoBehaviour
 	public Shader BufferShader; 
 	public LayerMask BufferLayer;
 	public static int BufferAA = 2;
+	public float AAMulti = 2.5f;
+	public static float vertPixelLocking;
 	public Texture2D defaultLUT;
 	public Texture2D ditherTex; 
+	public TextMesh FPSText;
 	RenderTexture AABuffer;
 	RenderTexture Buffer;
 	Camera RenderCam;
@@ -26,6 +30,7 @@ public class PixelArt : MonoBehaviour
 	Camera BufferCam; 
 	GameObject BufferPlane;
 	Material BufferMat;
+	Material AABufferMat;
 	public static float FPS = 60f; 
 	
 	float updateInterval = .5f;
@@ -37,7 +42,6 @@ public class PixelArt : MonoBehaviour
 	
 	void Start(){
 		Application.targetFrameRate = 60;
-		QualitySettings.vSyncCount = 0;
 		FPS = 60;
 		CleanBuffers ();
 		RenderCam = gameObject.GetComponent<Camera> ();
@@ -58,25 +62,66 @@ public class PixelArt : MonoBehaviour
 	}
 	int OldAA;
 	Vector2 OldSize;
+	bool OldOutlines;
+
 	void UpdateRTT(){
 		RenderCam = gameObject.GetComponent<Camera> ();
-		Buffer = new RenderTexture (horizontalResolution, verticalResolution, 24);
+		Buffer = new RenderTexture (horizontalResolution, verticalResolution, 16);
+		Buffer.generateMips = false;
 		Buffer.filterMode = FilterMode.Point;
 		//Buffer.antiAliasing = BufferAA;
 		Buffer.name = "Pixel Buffer!";
 		RenderCam.targetTexture = Buffer; 
 		if (BufferAA > 1) {
-			AABuffer = new RenderTexture(horizontalResolution*3,verticalResolution*3,24);
-			AABuffer.filterMode = FilterMode.Point;
-			AABuffer.antiAliasing = BufferAA;
+			AABuffer = new RenderTexture(Mathf.CeilToInt(horizontalResolution*AAMulti),Mathf.CeilToInt(verticalResolution*AAMulti),16);
+
+			AABuffer.filterMode = FilterMode.Bilinear;
+			AABuffer.generateMips = false;
+			AABuffer.antiAliasing = 1;// BufferAA;
+
 			Buffer.name = "AA Pixel Buffer!";
 			RenderCam.targetTexture = AABuffer;
+			Buffer.MarkRestoreExpected ();
+
 		}
+		if (pixelScale == 5)
+			OutlinePixelScaling = 2f;
+		if (pixelScale == 4)
+			OutlinePixelScaling = 1.666f;
+		if (pixelScale == 3)
+			OutlinePixelScaling = 1.25f;
+		if (pixelScale == 2)
+			OutlinePixelScaling = .9f;
+		if (pixelScale == 1)
+			OutlinePixelScaling = .5f;
+		if (Application.platform == RuntimePlatform.OSXWebPlayer || Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.WebGLPlayer) {
+			OutlinePixelScaling *= -.05f;	
+		} 
+		if (!enableOutlines)
+			OutlinePixelScaling = 0;
+		if(BufferAA == 1)
+			OutlinePixelScaling *= 1.1f;	
+		Shader.SetGlobalFloat("_DitherScale", 24f/2*(768f/Screen.height)*pixelScale  );
+		if (!isOrthographic) {
+			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth / 2f) * (768f / Screen.height)); 
+		}
+		if(isOrthographic)
+		{	
+			
+			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 1600 )* (768f/Screen.height) * (Camera.main.orthographicSize/12)*OutlinePixelScaling ); 
+			Shader.SetGlobalVector("_DitherScale", new Vector4(Screen.width/256f/pixelScale, Screen.height/256f/pixelScale,0,0) );
+			//Debug.Log (Screen.width/256f);
+		}
+		#if UNITY_EDITOR
+		if(!Application.isPlaying && isOrthographic)
+			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 2f )* (768f/Screen.height));
+		#endif
+
 		if(BufferMat)
 			BufferMat.mainTexture = Buffer;
 		OldAA = BufferAA;
 		OldSize = new Vector2 (horizontalResolution,verticalResolution);
-		
+		OldOutlines = enableOutlines;
 	}
 	
 	void UpdateBufferPlane(){
@@ -112,6 +157,9 @@ public class PixelArt : MonoBehaviour
 			BufferMat.SetTexture ("_LUTTex", IndexLUT);
 		else
 			BufferMat.SetTexture ("_LUTTex", defaultLUT);
+		if(AABufferMat != null)
+			AABufferMat.SetTexture ("_LUTTex", IndexLUT);
+
 		BufferMat.SetFloat ("_LUTSize", 32);
 		BufferPlane.GetComponent<Renderer> ().material = BufferMat;
 		
@@ -128,6 +176,24 @@ public class PixelArt : MonoBehaviour
 			else
 				BufferMat.SetTexture ("_LUTTex", defaultLUT);
 		}
+		if (BufferAA > 1) {
+			Shader.SetGlobalFloat ("_PixelSnap", (vertPixelLocking / AAMulti/3));
+			Debug.Log ((vertPixelLocking / AAMulti / 4));
+		} 
+		else {
+			Shader.SetGlobalFloat ("_PixelSnap", (vertPixelLocking/3));
+			Debug.Log((vertPixelLocking / 4));
+		}
+		if (!AABufferMat) {
+			AABufferMat = new Material (BufferShader);
+			AABufferMat.SetInt ("_LUTSize", 32);
+		} 
+		else {
+			if(IndexLUT != null)
+				AABufferMat.SetTexture ("_LUTTex", IndexLUT);
+			else
+				AABufferMat.SetTexture ("_LUTTex", defaultLUT);
+		}
 		if (!setManually) {
 			pixelScale = Mathf.CeilToInt (Screen.height / 320);
 			horizontalResolution = Screen.width / pixelScale;
@@ -143,46 +209,15 @@ public class PixelArt : MonoBehaviour
 		if (!BufferCam) {
 			RegisterBuffer ();
 		}
-		if (OldAA != BufferAA || horizontalResolution != OldSize.x || verticalResolution != OldSize.y) {
+		if (OldAA != BufferAA || horizontalResolution != OldSize.x || verticalResolution != OldSize.y || OldOutlines != enableOutlines) {
 			UpdateRTT ();
 			UpdateBufferPlane ();
 		}
 		
-		if (pixelScale == 5)
-			OutlinePixelScaling = 4f;
-		if (pixelScale == 4)
-			OutlinePixelScaling = 3f;
-		if (pixelScale == 3)
-			OutlinePixelScaling = 1.125f;
-		if (pixelScale == 2)
-			OutlinePixelScaling = .875f;
-		if (pixelScale == 1)
-			OutlinePixelScaling = .5f;
-		if (Application.platform == RuntimePlatform.OSXWebPlayer || Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.WebGLPlayer) {
-			OutlinePixelScaling *= -.05f;	
-		} 
-		OutlinePixelScaling *= 1.125f;	
-		if(BufferAA == 1)
-			OutlinePixelScaling *= .9f;	
-		Shader.SetGlobalFloat("_DitherScale", 24f/2*(768f/Screen.height)*pixelScale  );
-		if (!isOrthographic) {
-			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth / 2f) * (768f / Screen.height)); 
-		}
-		if(isOrthographic)
-		{	
-			
-			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 1600 )* (768f/Screen.height) * (Camera.main.orthographicSize/12)*OutlinePixelScaling ); 
-			Shader.SetGlobalVector("_DitherScale", new Vector4(Screen.width/256f/pixelScale, Screen.height/256f/pixelScale,0,0) );
-			//Debug.Log (Screen.width/256f);
-		}
-		#if UNITY_EDITOR
-		if(!Application.isPlaying && isOrthographic)
-			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 2f )* (768f/Screen.height));
-		#endif
 
 		//Debug.Log (FPS+" is the FPS");
 		if (BufferAA > 1) {
-			Graphics.Blit (AABuffer, Buffer);
+			Graphics.Blit (AABuffer, Buffer,AABufferMat);
 		}
 		
 	}
@@ -198,14 +233,11 @@ public class PixelArt : MonoBehaviour
 		{
 			// display two fractional digits (f2 format)
 			FPS = accum/frames;
-			//if( FPS > 60)
-			FPS = 60f;
-			//Debug.Log("FPS = " +1f/Time.deltaTime +" VS Accumulated FPS: " +FPS);
-			//FPS = 1f/Time.deltaTime;
 			timeleft = updateInterval;
 			accum = 0.0F;
 			frames = 0;
 		}
+		FPSText.text = FPS.ToString();
 		//FPS = (1f/Time.deltaTime);
 		//	Debug.Log("FPS = " +1f/Time.deltaTime);
 

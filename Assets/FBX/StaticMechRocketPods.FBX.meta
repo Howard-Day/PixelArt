@@ -52,6 +52,7 @@ ModelImporter:
     2300024: Object009
     2300026: Object010
     2300028: Object011
+    2300030: //RootNode
     3300000: Box002
     3300002: Box003
     3300004: Box007
@@ -67,6 +68,7 @@ ModelImporter:
     3300024: Object009
     3300026: Object010
     3300028: Object011
+    3300030: //RootNode
     4300000: Box002
     4300002: Cylinder001
     4300004: Line001
@@ -121,10 +123,10 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 12
+    normalSmoothAngle: 25
     splitTangentsAcrossUV: 0
     normalImportMode: 0
-    tangentImportMode: 1
+    tangentImportMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

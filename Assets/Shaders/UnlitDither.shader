@@ -20,7 +20,8 @@
                 uniform float4 _MainTex_ST;
                 uniform fixed4 _Color;          // Made this a fixed4, you won't get greater precision using float here.
             	float _DitherScale;
-               
+                sampler2D _DitherTex;
+
                 struct a2v  {
                     float4 vertex : POSITION;
                     float4 texcoord : TEXCOORD0;
@@ -36,7 +37,8 @@
                 v2f vert(a2v  i){
                     v2f o; 
                     o.pos = mul(UNITY_MATRIX_MVP, i.vertex);
-                    o.color = i.color;
+                    fixed4 ObjDepth = mul(UNITY_MATRIX_IT_MV, i.vertex);
+                    o.color = ObjDepth;
                     o.worldPos = mul(_Object2World, i.vertex);
                     return o;
                 }

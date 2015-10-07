@@ -4,44 +4,20 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 1
+  m_CurrentQuality: 0
   m_QualitySettings:
   - serializedVersion: 2
-    name: Fastest
-    pixelLightCount: 0
-    shadows: 0
-    shadowResolution: 0
+    name: Fantastic
+    pixelLightCount: 1
+    shadows: 1
+    shadowResolution: 1
     shadowProjection: 1
     shadowCascades: 1
-    shadowDistance: 15
-    shadowNearPlaneOffset: 2
-    shadowCascade2Split: .333333343
-    shadowCascade4Split: {x: .0666666701, y: .200000003, z: .466666669}
-    blendWeights: 1
-    textureQuality: 1
-    anisotropicTextures: 0
-    antiAliasing: 0
-    softParticles: 0
-    softVegetation: 0
-    realtimeReflectionProbes: 0
-    billboardsFaceCameraPosition: 0
-    vSyncCount: 0
-    lodBias: .300000012
-    maximumLODLevel: 0
-    particleRaycastBudget: 4
-    excludedTargetPlatforms: []
-  - serializedVersion: 2
-    name: Fantastic
-    pixelLightCount: 2
-    shadows: 1
-    shadowResolution: 3
-    shadowProjection: 0
-    shadowCascades: 4
     shadowDistance: 250
     shadowNearPlaneOffset: 200
     shadowCascade2Split: .739252806
     shadowCascade4Split: {x: .218290418, y: .28716436, z: .442316771}
-    blendWeights: 4
+    blendWeights: 1
     textureQuality: 0
     anisotropicTextures: 1
     antiAliasing: 0
@@ -55,13 +31,12 @@ QualitySettings:
     particleRaycastBudget: 4096
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
-    Android: 1
-    BlackBerry: 1
-    Samsung TV: 1
-    Standalone: 1
-    Tizen: 1
-    WP8: 1
-    Web: 1
-    WebGL: 1
-    Windows Store Apps: 1
-    iPhone: 1
+    Android: 0
+    Samsung TV: 0
+    Standalone: 0
+    Tizen: 0
+    WP8: 0
+    Web: 0
+    WebGL: 0
+    Windows Store Apps: 0
+    iPhone: 0

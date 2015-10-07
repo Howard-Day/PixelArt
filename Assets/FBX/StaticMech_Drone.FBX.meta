@@ -19,10 +19,12 @@ ModelImporter:
     2300002: DRIVEFLARE01
     2300004: Object003
     2300006: Object008
+    2300008: //RootNode
     3300000: Box004
     3300002: DRIVEFLARE01
     3300004: Object003
     3300006: Object008
+    3300008: //RootNode
     4300000: Box004
     4300002: Object003
     4300004: Object008
@@ -70,7 +72,7 @@ ModelImporter:
     normalSmoothAngle: 12
     splitTangentsAcrossUV: 0
     normalImportMode: 0
-    tangentImportMode: 1
+    tangentImportMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

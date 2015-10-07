@@ -21,8 +21,12 @@ Material:
         second:
           m_Texture: {fileID: 2800000, guid: 993d295c8caf882418fc9350d051196c, type: 3}
           m_Scale: {x: .5, y: .5}
-          m_Offset: {x: 0, y: .5}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
+      data:
+        first:
+          name: _ColorDither
+        second: 1.5
       data:
         first:
           name: _PixelSnap
@@ -30,15 +34,11 @@ Material:
       data:
         first:
           name: _AlphaClipOffset
-        second: .959999979
+        second: .5
       data:
         first:
           name: _AlphaDither
-        second: 2
-      data:
-        first:
-          name: _ColorDither
-        second: .409999996
+        second: 4
     m_Colors:
       data:
         first:

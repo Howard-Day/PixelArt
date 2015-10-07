@@ -38,18 +38,18 @@ public class AnimSpeed : MonoBehaviour {
 	}
 
 	void StepAnim(int FPS, float Length){
-		animationStepNormalized = Length / FPS ;
+		animationStepNormalized = Length / FPS;
 	}
 
 
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 		if (anim [anim.clip.name].weight < .1f)
 			FindActiveClip ();
 
 		if (StepAnimation) {
 			if(DemoSceneControl.Play){
-				if(PixelArt.framecount % Mathf.Round((1/Time.deltaTime)/FrameRate) == 0)
+				if(PixelArt.framecount % Mathf.Round(PixelArt.FPS/FrameRate) == 0)
 				{
 					StepAnim (FrameRate,currentAnimLength);
 					stepTime += animationStepNormalized*Speed;

@@ -6,11 +6,11 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: EngineGlow
-  m_Shader: {fileID: 4800000, guid: 5896eb18618ffeb4da4b48ca145e81a0, type: 3}
+  m_Name: FireFX
+  m_Shader: {fileID: 4800000, guid: dbd73cc8d1885c944b7a9a8a02d01387, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -19,7 +19,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: cecbf275b0d59704f923fd3ca506d6c6, type: 3}
+          m_Texture: {fileID: 2800000, guid: fb728942e58731447837eeeed9658418, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -135,6 +135,14 @@ Material:
         first:
           name: _ColorDither
         second: 1
+      data:
+        first:
+          name: _AlphaClipOffset
+        second: .5
+      data:
+        first:
+          name: _AlphaDither
+        second: 1
     m_Colors:
       data:
         first:
@@ -143,7 +151,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: .57099998, g: .57099998, b: .57099998, a: 1}
       data:
         first:
           name: _TintColor

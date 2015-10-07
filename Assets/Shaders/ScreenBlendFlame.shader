@@ -4,8 +4,8 @@ Properties {
    _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
    _Color ("Color", Color) = (1,1,1,1)
    _AlphaClipOffset("Alpha Clipping Offset", float) = 0
-   _AlphaDither("Alpha Clipping Offset", float) = .3
-   _ColorDither("Alpha Clipping Offset", float) = .3
+   _AlphaDither("Alpha Dither Amount", float) = .3
+   _ColorDither("Color Dither Amount", float) = .3
 }
  
 SubShader {
@@ -17,7 +17,7 @@ SubShader {
    //Blend SrcAlpha One, One Zero // linear dodge
    ZWrite Off
    //AlphaTest Greater .01
-   Offset -1420,-1420
+   Offset -10,-10
    Cull Off
    Pass {
      CGPROGRAM
@@ -66,6 +66,7 @@ SubShader {
 			#if DITHER_ON
 				dither = tex2D(_DitherTex,i.screenPos*_DitherScale).r;// _Color.rgb; 
 				dither -= .5;
+				dither *= .05;
 			#endif         
 			col.r = lerp(col.r,col.g,1-i.color.a);
 			fixed blendMask = col.r;

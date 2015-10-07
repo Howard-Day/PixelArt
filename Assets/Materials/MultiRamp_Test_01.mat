@@ -10,7 +10,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 9aa7bd42bb29eaa4aacde32294d62c69, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -136,12 +136,16 @@ Material:
         second: 0
       data:
         first:
+          name: _PixelSnap
+        second: .25
+      data:
+        first:
           name: _Outline
         second: .5
       data:
         first:
-          name: _PixelSnap
-        second: 5000
+          name: _DistanceDarken
+        second: .660000026
     m_Colors:
       data:
         first:
@@ -154,4 +158,4 @@ Material:
       data:
         first:
           name: _OutlineColor
-        second: {r: .784313738, g: .784313738, b: .784313738, a: .70588237}
+        second: {r: 1, g: 1, b: 1, a: 1}

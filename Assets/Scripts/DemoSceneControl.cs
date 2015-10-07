@@ -13,6 +13,8 @@ public class DemoSceneControl : MonoBehaviour {
 	public Switch ShadowToggle;
 	public Switch PlayToggle;
 	public Switch BackToggle;
+	public Switch PixelLockToggle;
+
 	[Header("Palette Buttons")]
 	public Switch Default;
 	public Switch DOOM;
@@ -72,30 +74,37 @@ public class DemoSceneControl : MonoBehaviour {
 			LightSpinner.Rotate = false;
 
 		if (AA.Active)
-			PixelArt.BufferAA = 2;
+			PixelArt.BufferAA = 4;
 		else
 			PixelArt.BufferAA = 1;
 
 		if (PixelScale.Active) {
-			if (Screen.height > 1000)
-				PixelControl.pixelScale = 3;
+			if (Screen.height > 1070)
+				PixelControl.pixelScale = 4;
 			else
 				PixelControl.pixelScale = 3;
 			if (Screen.height <= 600)
 				PixelControl.pixelScale = 2;
 		} 
 		else {
-			if (Screen.height > 1000)
-				PixelControl.pixelScale = 2;
+			if (Screen.height > 1070)
+				PixelControl.pixelScale = 3;
 			else
 				PixelControl.pixelScale = 2;
 			if (Screen.height <= 600)
 				PixelControl.pixelScale = 1;
 		}
+		if (PixelLockToggle.Active) {
+			PixelArt.vertPixelLocking = 1f;
+		} else {
+			PixelArt.vertPixelLocking = 10000f;
+		}
 
+		if (!OutlineToggle.Active)
+			PixelArt.enableOutlines = false;
+		else
+			PixelArt.enableOutlines = true;
 
-		if(!OutlineToggle.Active)
-			Shader.SetGlobalFloat ("_OutlineWidth", 0);
 		if (!PixelToggle.Active)
 			PixelControl.pixelScale = 1;
 

@@ -1,8 +1,9 @@
 ﻿
-Shader "Pixel Art/ScreenBlendOverlay" {
+Shader "Pixel Art/ScreenGlare" {
 Properties {
    _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
    _Color ("Color", Color) = (1,1,1,1)
+   _ColorDither("Dithering Amount", float) = .1
 }
  
 SubShader {
@@ -15,8 +16,7 @@ SubShader {
    //Blend SrcAlpha One, One Zero // linear dodge
    ZWrite off
    //AlphaTest Greater .01
-   ZTest Greater
-   Offset 100000,100000
+   ZTest Always
    Cull Off
    Pass {
      CGPROGRAM
@@ -40,7 +40,10 @@ SubShader {
        sampler2D _MainTex;
        float4 _MainTex_ST;
        float4 _Color;
-     
+       sampler2D _DitherTex;
+	   fixed4 _DitherScale;
+	   fixed _ColorDither;
+	   
        v2f vert (appdata_t v)
        {
          v2f o;

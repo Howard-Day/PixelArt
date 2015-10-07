@@ -5,8 +5,8 @@ Properties {
    _Color ("Color", Color) = (1,1,1,1)
    _PixelSnap ("Pixel Snap", float) = 1
    _AlphaClipOffset("Alpha Clipping Offset", float) = 0
-   _AlphaDither("Alpha Clipping Offset", float) = .3
-   _ColorDither("Alpha Clipping Offset", float) = .3
+   _AlphaDither("Alpha Dither Amount", float) = .3
+   _ColorDither("Color Dither Amount", float) = .3
 }
  
 SubShader {
@@ -86,6 +86,7 @@ SubShader {
 	#if DITHER_ON
 		dither = tex2D(_DitherTex,i.screenPos*_DitherScale).r;// _Color.rgb; 
 		dither -= .5;
+		dither *= .05;
 	#endif
 		
          fixed4 col = _Color*tex2D(_MainTex, i.texcoord)*i.color;

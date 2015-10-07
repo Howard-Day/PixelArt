@@ -90,6 +90,7 @@ ModelImporter:
     2300048: Off001
     2300050: On
     2300052: Plane001
+    2300054: //RootNode
     3300000: Box002
     3300002: Box003
     3300004: Box004
@@ -117,6 +118,7 @@ ModelImporter:
     3300048: Off001
     3300050: On
     3300052: Plane001
+    3300054: //RootNode
     4300000: Box002
     4300002: Cylinder001
     4300004: Line001
@@ -183,10 +185,10 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 12
+    normalSmoothAngle: 25
     splitTangentsAcrossUV: 0
     normalImportMode: 0
-    tangentImportMode: 1
+    tangentImportMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

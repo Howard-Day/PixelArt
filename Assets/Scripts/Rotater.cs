@@ -9,6 +9,7 @@ public class Rotater : MonoBehaviour {
 	public float Speed = 1f;
 	public int Skip = 120;
 	public bool WorldAxis = false;
+	public bool SwapUpAxis = false;
 	public bool debug;
 	int Framecounter;
 	Vector3 RotateAxis;
@@ -16,13 +17,19 @@ public class Rotater : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
-
-		if (WorldAxis)
-			RotateAxis = Vector3.up;
-		else
-			RotateAxis = transform.up;
-
+		if (SwapUpAxis) {
+			if (WorldAxis)
+				RotateAxis = Vector3.forward;
+			else
+				RotateAxis = transform.forward;
+		}
+		if(!SwapUpAxis)
+		{
+			if (WorldAxis)
+				RotateAxis = Vector3.up;
+			else
+				RotateAxis = transform.up;
+		}
 		if (Rotate) {
 
 			if (!Smooth) {

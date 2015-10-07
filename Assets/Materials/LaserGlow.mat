@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: EngineGlow
-  m_Shader: {fileID: 4800000, guid: 5896eb18618ffeb4da4b48ca145e81a0, type: 3}
+  m_Name: LaserGlow
+  m_Shader: {fileID: 4800000, guid: 2c1c2c46817773b4ebe6fdd2d60c1dbc, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 3000
@@ -134,7 +134,7 @@ Material:
       data:
         first:
           name: _ColorDither
-        second: 1
+        second: .100000001
     m_Colors:
       data:
         first:

@@ -133,16 +133,16 @@ Material:
         second: 1
       data:
         first:
+          name: _ColorDither
+        second: .75
+      data:
+        first:
           name: _AlphaClipOffset
         second: .100000001
       data:
         first:
           name: _AlphaDither
-        second: .289999992
-      data:
-        first:
-          name: _ColorDither
-        second: .300000012
+        second: .75
     m_Colors:
       data:
         first:
@@ -151,7 +151,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .57099998, g: .57099998, b: .57099998, a: 1}
+        second: {r: .615999997, g: .615999997, b: .615999997, a: 1}
       data:
         first:
           name: _TintColor
