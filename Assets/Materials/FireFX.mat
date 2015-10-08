@@ -142,7 +142,7 @@ Material:
       data:
         first:
           name: _AlphaDither
-        second: 1
+        second: 1.5
     m_Colors:
       data:
         first:

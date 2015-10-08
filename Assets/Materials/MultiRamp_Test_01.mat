@@ -145,7 +145,7 @@ Material:
       data:
         first:
           name: _DistanceDarken
-        second: .660000026
+        second: .75
     m_Colors:
       data:
         first:

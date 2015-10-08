@@ -177,12 +177,12 @@ public class PixelArt : MonoBehaviour
 				BufferMat.SetTexture ("_LUTTex", defaultLUT);
 		}
 		if (BufferAA > 1) {
-			Shader.SetGlobalFloat ("_PixelSnap", (vertPixelLocking / AAMulti/3));
-			Debug.Log ((vertPixelLocking / AAMulti / 4));
+			Shader.SetGlobalFloat ("_PixelSnap", (vertPixelLocking / AAMulti/2));
+			Debug.Log ((vertPixelLocking / AAMulti / 2));
 		} 
 		else {
-			Shader.SetGlobalFloat ("_PixelSnap", (vertPixelLocking/3));
-			Debug.Log((vertPixelLocking / 4));
+			Shader.SetGlobalFloat ("_PixelSnap", (vertPixelLocking/2));
+			Debug.Log((vertPixelLocking / 2));
 		}
 		if (!AABufferMat) {
 			AABufferMat = new Material (BufferShader);
