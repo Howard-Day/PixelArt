@@ -111,7 +111,7 @@
             Lighting Off
             ZWrite Off
             Blend SrcAlpha OneMinusSrcAlpha
-            //Offset -2,-2
+            Offset 2,2
        		CGPROGRAM
             
             #pragma vertex vert
