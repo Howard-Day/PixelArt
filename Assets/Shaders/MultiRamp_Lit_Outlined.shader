@@ -4,6 +4,7 @@
         _Color ("Color", Color) = (1,1,1,1)
         _OutlineColor ("Outline Color", Color) = (0,0,0,1)
         _DistanceDarken ("Distance Darkening", float) = .5
+        _Dither ("Dithering amount", float) = .5
     }
     SubShader { 
         Pass{
@@ -25,6 +26,7 @@
                 fixed _PixelSnap;
                 fixed4 _DitherScale;
                 fixed _DistanceDarken;
+                fixed _Dither;
                 struct a2v  {
                     float4 vertex : POSITION;
                     fixed3 normal : NORMAL;
@@ -88,13 +90,13 @@
                     #if DITHER_ON
 	                    dither = tex2D(_DitherTex,i.screenPos*_DitherScale).r;// _Color.rgb; 
 	                    dither -= .5;
-	                    dither *= i.color.g*.05;
+	                    dither *= i.color.g*.05*_Dither;
 	                    //dither *= .5;
  					#endif
  					// Put the vector maths in brackets so it doesn't try and do scalar-vector maths where it doesn't need to.
                     fixed4 c = UNITY_LIGHTMODEL_AMBIENT;
                     fixed amb = ((i.color.r)*(c.r+c.g+c.b)*.33333);
-                    fixed2 newCoords = fixed2(lerp(amb,max(NdotL,amb),shadow)+dither-(saturate(1-i.screenPos.w-.5)*(1-_DistanceDarken)),i.uv.y);
+                    fixed2 newCoords = fixed2(lerp(amb,max(NdotL,amb),shadow+dither*4)+dither-(saturate(1-i.screenPos.w-.5)*(1-_DistanceDarken)),i.uv.y);
                     fixed3 colors = tex2D(_MainTex, newCoords).rgb;
                     c.rgb = colors * lerp(c.rgb,_LightColor0.rgb,shadow);
                     c.rgb *= _Color.rgb;

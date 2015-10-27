@@ -145,7 +145,11 @@ Material:
       data:
         first:
           name: _DistanceDarken
-        second: .75
+        second: .600000024
+      data:
+        first:
+          name: _Dither
+        second: .5
     m_Colors:
       data:
         first:
@@ -158,4 +162,4 @@ Material:
       data:
         first:
           name: _OutlineColor
-        second: {r: .627451003, g: .627451003, b: .627451003, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}

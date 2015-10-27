@@ -134,7 +134,7 @@ Material:
       data:
         first:
           name: _ColorDither
-        second: 1
+        second: .5
       data:
         first:
           name: _AlphaClipOffset
@@ -142,7 +142,7 @@ Material:
       data:
         first:
           name: _AlphaDither
-        second: 1.5
+        second: .5
     m_Colors:
       data:
         first:
