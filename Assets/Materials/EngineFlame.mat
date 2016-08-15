@@ -15,32 +15,26 @@ Material:
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
-      data:
-        first:
-          name: _MainTex
-        second:
-          m_Texture: {fileID: 2800000, guid: 993d295c8caf882418fc9350d051196c, type: 3}
-          m_Scale: {x: .5, y: .5}
-          m_Offset: {x: .5, y: 0}
+    - first:
+        name: _MainTex
+      second:
+        m_Texture: {fileID: 2800000, guid: 993d295c8caf882418fc9350d051196c, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
+        m_Offset: {x: 0.5, y: 0.5}
     m_Floats:
-      data:
-        first:
-          name: _ColorDither
-        second: 1.5
-      data:
-        first:
-          name: _PixelSnap
-        second: 122
-      data:
-        first:
-          name: _AlphaClipOffset
-        second: .5
-      data:
-        first:
-          name: _AlphaDither
-        second: 4
+    - first:
+        name: _AlphaClipOffset
+      second: 0.5
+    - first:
+        name: _AlphaDither
+      second: 4
+    - first:
+        name: _ColorDither
+      second: 1.5
+    - first:
+        name: _PixelSnap
+      second: 122
     m_Colors:
-      data:
-        first:
-          name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _Color
+      second: {r: 1, g: 1, b: 1, a: 1}

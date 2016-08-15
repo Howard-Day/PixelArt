@@ -80,7 +80,7 @@ public class DemoSceneControl : MonoBehaviour {
 
 		if (PixelScale.Active) {
 			if (Screen.height > 1070)
-				PixelControl.pixelScale = 4;
+				PixelControl.pixelScale = 3;
 			else
 				PixelControl.pixelScale = 3;
 			if (Screen.height <= 600)
@@ -88,7 +88,7 @@ public class DemoSceneControl : MonoBehaviour {
 		} 
 		else {
 			if (Screen.height > 1070)
-				PixelControl.pixelScale = 3;
+				PixelControl.pixelScale = 2;
 			else
 				PixelControl.pixelScale = 2;
 			if (Screen.height <= 600)

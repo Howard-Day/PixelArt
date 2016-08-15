@@ -1,0 +1,999 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014,2015 Jean Moreno
+
+Shader "@%SHADER_NAME%@"
+{
+	Properties
+	{
+		//TOONY COLORS
+		_Color ("Color", Color) = (0.5,0.5,0.5,1.0)
+		_HColor ("Highlight Color", Color) = (0.6,0.6,0.6,1.0)
+		_SColor ("Shadow Color", Color) = (0.3,0.3,0.3,1.0)
+		
+		//DIFFUSE
+		_MainTex ("Main Texture (RGB)", 2D) = "white" {}
+/// IF VCOLORS_BLENDING
+		_MainTex2 ("Texture 2 (RGB)", 2D) = "white" {}
+///
+/// IF DETAIL_TEX
+		_Detail ("Detail (RGB)", 2D) = "gray" {}
+///
+/// IF MASK1
+		_Mask1 ("Mask 1 (@%MASK1%@)", 2D) = "black" {}
+///
+/// IF MASK2
+		_Mask2 ("Mask 2 (@%MASK2%@)", 2D) = "black" {}
+///
+/// IF MASK3
+		_Mask3 ("Mask 3 (@%MASK3%@)", 2D) = "black" {}
+///
+/// IF ILLUMINATION
+	/// IF ILLUM_COLOR
+		_IllumColor ("Illumination Color", Color) = (1,1,1,1.0)
+	///
+///
+		
+		//TOONY COLORS RAMP
+/// IF TEXTURE_RAMP
+		_Ramp ("#RAMPT# Toon Ramp (RGB)", 2D) = "gray" {}
+		
+/// ELSE
+		_RampThreshold ("#RAMPF# Ramp Threshold", Range(0,1)) = 0.5
+		_RampSmooth ("#RAMPF# Ramp Smoothing", Range(0.001,1)) = 0.1
+		
+///
+/// IF TEXTURED_THRESHOLD
+		//THRESHOLD TEXTURE
+		_ThresholdTex ("Threshold Texture (Alpha)", 2D) = "black" {}
+///
+/// IF BUMP
+		//BUMP
+		_BumpMap ("#NORM# Normal map (RGB)", 2D) = "bump" {}
+	/// IF PARALLAX
+		_ParallaxMap ("#PLLX# Heightmap (Alpha)", 2D) = "black" {}
+		_Parallax ("#PLLX# Height", Range (0.005, 0.08)) = 0.02
+	///
+		
+///
+/// IF OCCLUSION
+		//AMBIENT OCCLUSION
+	/// IF OCCL_RGB
+		_OcclusionMap ("Occlusion (RGB)", 2D) = "white" {}
+	/// ELSE
+		_OcclusionMap ("Occlusion (Alpha)", 2D) = "white" {}
+	///
+		
+///
+/// IF SPECULAR || SPECULAR_ANISOTROPIC
+		//SPECULAR
+		_SpecColor ("#SPEC# Specular Color", Color) = (0.5, 0.5, 0.5, 1)
+		_Shininess ("#SPEC# Shininess", Range(0.0,2)) = 0.1
+	/// IF SPECULAR_ANISOTROPIC
+		_AnisoBrush ("#SPECA# Anisotropic Spread", Range(0.0,2)) = 1.0
+	///
+	/// IF SPECULAR_TOON
+		_SpecSmooth ("#SPECT# Smoothness", Range(0,1)) = 0.05
+	///
+		
+///
+/// IF REFLECTION
+		//REFLECTION
+		_Cube ("#REFL# Reflection Cubemap", Cube) = "_Skybox" {}
+	/// IF REFL_COLOR
+		_ReflectColor ("#REFLC# Reflection Color (RGB) Strength (Alpha)", Color) = (1,1,1,0.5)
+	///
+	/// IF REFL_ROUGH
+		_ReflectRoughness ("#REFLR# Reflection Roughness", Range(0,9)) = 0
+	///
+		
+///
+/// IF RIM || RIM_OUTLINE
+		//RIM LIGHT
+		_RimColor ("#RIM# Rim Color", Color) = (0.8,0.8,0.8,0.6)
+		_RimMin ("#RIM# Rim Min", Range(0,1)) = 0.5
+		_RimMax ("#RIM# Rim Max", Range(0,1)) = 1.0
+		
+	/// IF RIMDIR
+		//RIM DIRECTION
+		_RimDir ("#RIMDIR# Rim Direction", Vector) = (0.0,0.0,1.0,0.0)
+		
+	///
+		
+///
+/// IF MATCAP
+		//MATCAP
+	/// IF MATCAP_ADD
+		_MatCap ("#MC# MatCap (RGB)", 2D) = "black" {}
+	/// ELIF MATCAP_MULT
+		_MatCap ("#MC# MatCap (RGB)", 2D) = "white" {}
+	///
+	/// IF MC_COLOR
+		_MatCapColor ("#MC# MatCap Color (RGB) Strength (Alpha)", Color) = (1,1,1,1)
+	///
+		
+///
+/// IF SKETCH || SKETCH_GRADIENT
+		//SKETCH
+		_SketchTex ("#SKETCH# Sketch (Alpha)", 2D) = "white" {}
+	/// IF SKETCH_ANIM
+		_SketchSpeed ("#SKETCH# Sketch Anim Speed", Range(1.1, 10)) = 6
+	///
+	/// IF SKETCH_GRADIENT
+		_SketchColor ("#SKETCHG# Sketch Color (RGB)", Color) = (0,0,0,1)
+		_SketchHalftoneMin ("#SKETCHG# Sketch Halftone Min", Range(0,1)) = 0.2
+		_SketchHalftoneMax ("#SKETCHG# Sketch Halftone Max", Range(0,1)) = 1.0
+	///
+		
+///
+/// IF CUBE_AMBIENT
+		//AMBIENT CUBEMAP
+		_AmbientCube ("#CUBEAMB# Ambient Cubemap", Cube) = "_Skybox" {}
+///
+/// IF DIRAMBIENT
+		_TCP2_AMBIENT_RIGHT ("#DAMB# Right", Color) = (0,0,0,0.2)
+		_TCP2_AMBIENT_LEFT ("#DAMB# Left", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_TOP ("#DAMB# Top", Color) = (0,0.3,0.5,1)
+		_TCP2_AMBIENT_BOTTOM ("#DAMB# Bottom", Color) = (0.3,0.1,0,1)
+		_TCP2_AMBIENT_FRONT ("#DAMB# Front", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_BACK ("#DAMB# Back", Color) = (0,0,0,1)
+///
+/// IF OUTLINE || OUTLINE_BLENDING
+		//OUTLINE
+		_OutlineColor ("#OUTLINE# Outline Color", Color) = (0.2, 0.2, 0.2, 1.0)
+		_Outline ("#OUTLINE# Outline Width", Float) = 1
+		
+		//Outline Textured
+		_TexLod ("#OUTLINETEX# Texture LOD", Range(0,10)) = 5
+		
+		//ZSmooth
+		_ZSmooth ("#OUTLINEZ# Z Correction", Range(-3.0,3.0)) = -0.5
+		
+		//Z Offset
+		_Offset1 ("#OUTLINEZ# Z Offset 1", Float) = 0
+		_Offset2 ("#OUTLINEZ# Z Offset 2", Float) = 0
+		
+	/// IF OUTLINE_BLENDING
+		//Blending
+		_SrcBlendOutline ("#BLEND# Blending Source", Float) = 5
+		_DstBlendOutline ("#BLEND# Blending Dest", Float) = 10
+		
+	///
+///
+/// IF ALPHA
+		//Blending
+		_SrcBlend ("#ALPHA# Blending Source", Float) = 5
+		_DstBlend ("#ALPHA# Blending Dest", Float) = 10
+		
+///
+/// IF CUTOUT
+		//Alpha Testing
+		_Cutoff ("#CUTOUT# Alpha cutoff", Range(0,1)) = 0.5
+///
+	}
+	
+	SubShader
+	{
+/// IF ALPHA || CUTOUT
+	/// IF ALPHA
+		Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
+		Blend [_SrcBlend] [_DstBlend]
+	///
+	/// IF CUTOUT
+		Tags {"Queue"="AlphaTest" "IgnoreProjector"="True" "RenderType"="TransparentCutout"}
+	///
+/// ELSE
+		Tags { "RenderType"="Opaque" }
+///
+/// IF CULL_OFF
+		Cull Off
+///
+/// IF CULL_FRONT
+		Cull Front
+///
+/// IF OUTLINE || OUTLINE_BLENDING && OUTLINE_BEHIND
+		
+		//Outlines
+	/// IF OUTLINE
+		Tags { "Queue"="Transparent" }
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind (Shader Model 2)/OUTLINE"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind/OUTLINE"
+		///
+	///
+	/// IF OUTLINE_BLENDING
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjectors"="True" }
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind (Shader Model 2)/OUTLINE_BLENDING"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind/OUTLINE_BLENDING"
+		///
+	///
+///
+		
+		CGPROGRAM
+		
+/// IF !CUSTOM_LIGHTING
+		#include "@%INCLUDE_PATH%@"
+///
+/// IF DX11_TESSELLATION
+		#include "Tessellation.cginc"
+///
+		#pragma surface surf @%LIGHTING_MODEL%@ @%SURF_PARAMS%@
+		#pragma target @%SHADER_TARGET%@
+		#pragma glsl
+		
+/// IF TEXTURE_RAMP
+		#pragma multi_compile TCP2_RAMPTEXT
+///
+/// IF SPECULAR_TOON
+		#pragma multi_compile TCP2_SPEC_TOON
+///
+		
+		//================================================================
+		// VARIABLES
+		
+		fixed4 _Color;
+		sampler2D _MainTex;
+/// IF MASK1
+		sampler2D _Mask1;
+///
+/// IF MASK2
+		sampler2D _Mask2;
+///
+/// IF MASK3
+		sampler2D _Mask3;
+///
+/// IF VCOLORS_BLENDING
+		sampler2D _MainTex2;
+///
+/// IF DETAIL_TEX
+		sampler2D _Detail;
+///
+/// IF TEXTURED_THRESHOLD
+		sampler2D _ThresholdTex;
+///
+/// IF CUBE_AMBIENT
+		samplerCUBE _AmbientCube;
+///
+/// IF REFLECTION
+		samplerCUBE _Cube;
+	/// IF REFL_COLOR
+		fixed4 _ReflectColor;
+	///
+	/// IF REFL_ROUGH
+		fixed _ReflectRoughness;
+	///
+///
+/// IF ILLUMINATION
+	/// IF ILLUM_COLOR
+		fixed4 _IllumColor;
+	///
+///
+/// IF MATCAP
+		sampler2D _MatCap;
+	/// IF MC_COLOR
+		fixed4 _MatCapColor;
+	///
+///
+/// IF SKETCH_ANIM
+		fixed _SketchSpeed;
+///
+		
+/// IF BUMP
+		sampler2D _BumpMap;
+	/// IF PARALLAX
+		sampler2D _ParallaxMap;
+		float _Parallax;
+	///
+///
+/// IF OCCLUSION
+		sampler2D _OcclusionMap;
+///
+/// IF SPECULAR || SPECULAR_ANISOTROPIC
+		fixed _Shininess;
+	/// IF SPECULAR_ANISOTROPIC
+		float _AnisoBrush;
+	///
+///
+/// IF RIM || RIM_OUTLINE
+		fixed4 _RimColor;
+		fixed _RimMin;
+		fixed _RimMax;
+		float4 _RimDir;
+///
+/// IF SKETCH || SKETCH_GRADIENT && SKETCH_ANIM
+		fixed4 _Random;
+///
+		
+		struct Input
+		{
+			half2 uv_MainTex;
+/// IF VCOLORS_BLENDING
+			half2 uv_MainTex2;
+///
+/// IF DETAIL_TEX
+	/// IF DETAIL_UV2
+			half2 uv2_Detail;
+	/// ELSE
+			half2 uv_Detail;
+	///
+///
+/// IF UVMASK1
+			half2 uv_Mask1;
+///
+/// IF UVMASK2
+			half2 uv_Mask2;
+///
+/// IF UVMASK3
+			half2 uv_Mask3;
+///
+/// IF SPECULAR_ANISOTROPIC
+			fixed3 tangentDir;
+///
+/// IF BUMP
+			half2 uv_BumpMap;
+///
+/// IF REFLECTION
+			float3 worldRefl;
+///
+/// IF CUBE_AMBIENT
+			float3 worldNormal;
+///
+/// IF REFLECTION || CUBE_AMBIENT && BUMP
+			INTERNAL_DATA
+///
+/// IF RIM_VERTEX && PARALLAX
+			float3 viewDir;
+///
+/// IF RIM || RIM_OUTLINE && RIMDIR && BUMP && !RIM_VERTEX
+			float3 bViewDir;
+/// ELIF PARALLAX || RIM || RIM_OUTLINE && !RIM_VERTEX
+			float3 viewDir;
+///
+/// IF RIM_VERTEX
+	/// IF RIM_OUTLINE
+			fixed rim;
+	/// ELIF RIM
+			fixed3 rim;
+	///
+///
+/// IF MATCAP
+	/// IF MATCAP_PIXEL && BUMP
+			half3 matcap0;
+			half3 matcap1;
+	/// ELSE
+			half2 matcap;
+	///
+///
+/// IF SKETCH || SKETCH_GRADIENT
+	/// IF SKETCH_VERTEX
+			half2 sketchUv;
+	/// ELSE
+			half4 sketchUv;
+	///
+///
+/// IF VCOLORS_BLENDING || VCOLORS
+			float4 color : COLOR;
+///
+/// IF TEXTURED_THRESHOLD
+			half2 uv_ThresholdTex;
+///
+/// IF DIRAMBIENT
+			fixed3 ambient;
+///
+		};
+		
+/// IF CUSTOM_LIGHTING
+		//================================================================
+		// CUSTOM LIGHTING
+		
+		//Lighting-related variables
+		fixed4 _HColor;
+		fixed4 _SColor;
+	/// IF TEXTURE_RAMP
+		sampler2D _Ramp;
+	/// ELSE
+		float _RampThreshold;
+		float _RampSmooth;
+	///
+	/// IF SPECULAR_TOON
+		fixed _SpecSmooth;
+	///
+	/// IF SKETCH || SKETCH_GRADIENT
+		sampler2D _SketchTex;
+		float4 _SketchTex_ST;
+		/// IF SKETCH_GRADIENT
+		fixed4 _SketchColor;
+		fixed _SketchHalftoneMin;
+		fixed _SketchHalftoneMax;
+		///
+	///
+		
+		//Custom SurfaceOutput
+		struct SurfaceOutputCustom
+		{
+			fixed3 Albedo;
+			fixed3 Normal;
+			fixed3 Emission;
+			half Specular;
+			fixed Gloss;
+			fixed Alpha;
+	/// IF SKETCH || SKETCH_GRADIENT
+			half2 ScreenUVs;
+	///
+	/// IF SPECULAR_ANISOTROPIC
+			fixed3 Tangent;
+	///
+	/// IF TEXTURED_THRESHOLD
+			fixed TexThreshold;
+	///
+		};
+		
+		inline half4 LightingToonyColorsCustom (SurfaceOutputCustom s, half3 lightDir, half3 viewDir, half atten)
+		{
+			s.Normal = normalize(s.Normal);
+			fixed ndl = max(0, dot(s.Normal, lightDir)*0.5 + 0.5);
+			
+	/// IF TEXTURED_THRESHOLD
+			ndl += s.TexThreshold;
+	///
+	/// IF TEXTURE_RAMP
+			fixed3 ramp = tex2D(_Ramp, fixed2(ndl,ndl));
+	/// ELSE
+			fixed3 ramp = smoothstep(_RampThreshold-_RampSmooth*0.5, _RampThreshold+_RampSmooth*0.5, ndl);
+	///
+	/// IF !INDEPENDENT_SHADOWS
+		#if !(POINT) && !(SPOT)
+			ramp *= atten;
+		#endif
+	///
+	/// IF SKETCH || SKETCH_GRADIENT
+			//Sketch
+			fixed sketch = tex2D(_SketchTex, s.ScreenUVs).a;
+		/// IF SKETCH_GRADIENT
+			sketch = smoothstep(sketch - 0.2, sketch, clamp(ramp, _SketchHalftoneMin, _SketchHalftoneMax));	//Gradient halftone
+		/// ELSE
+			sketch = lerp(sketch, 1, ramp);	//Regular sketch overlay
+		///
+	///
+			_SColor = lerp(_HColor, _SColor, _SColor.a);	//Shadows intensity through alpha
+			ramp = lerp(_SColor.rgb,_HColor.rgb,ramp);
+	/// IF SPECULAR || SPECULAR_ANISOTROPIC
+			
+			//Specular
+			half3 h = normalize(lightDir + viewDir);
+			float ndh = max(0, dot (s.Normal, h));
+		/// IF SPECULAR_ANISOTROPIC
+			half3 binorm = cross(s.Normal, s.Tangent);
+			fixed ndv = dot(viewDir, s.Normal);
+			float aX = dot(h, s.Tangent) / _AnisoBrush;
+			float aY = dot(h, binorm) / _Shininess;
+			float spec = sqrt(max(0.0, ndl / ndv)) * exp(-2.0 * (aX * aX + aY * aY) / (1.0 + ndh)) * s.Gloss * 2.0;
+		/// ELSE
+			float spec = pow(ndh, s.Specular*128.0) * s.Gloss * 2.0;
+		///
+		/// IF SPECULAR_TOON
+			spec = smoothstep(0.5-_SpecSmooth*0.5, 0.5+_SpecSmooth*0.5, spec);
+		///
+			spec *= atten;
+			fixed4 c;
+			c.rgb = s.Albedo * _LightColor0.rgb * ramp;
+		/// IF INDEPENDENT_SHADOWS
+			c.rgb *= atten;
+		/// ELSE
+		#if (POINT || SPOT)
+			c.rgb *= atten;
+		#endif
+		///
+			c.rgb *= 2;
+			c.rgb += _LightColor0.rgb * _SpecColor.rgb * spec;
+			c.a = s.Alpha + _LightColor0.a * _SpecColor.a * spec;
+	/// ELSE
+			fixed4 c;
+			c.rgb = s.Albedo * _LightColor0.rgb * ramp * 2;
+			c.a = s.Alpha;
+		/// IF INDEPENDENT_SHADOWS
+			c.rgb *= atten;
+		/// ELSE
+		#if (POINT || SPOT)
+			c.rgb *= atten;
+		#endif
+		///
+	///
+	/// IF SKETCH
+		/// IF SKETCH_COLORBURN
+			c.rgb = max((1.0 - ((1.0 - c.rgb) / sketch)), 0.0);
+		/// ELSE
+			c.rgb *= sketch;
+		///
+	/// ELIF SKETCH_GRADIENT
+			c.rgb *= lerp(_SketchColor.rgb, fixed3(1,1,1), sketch);
+	///
+			return c;
+		}
+		
+	/// IF LIGHTMAP
+		inline half4 LightingToonyColorsCustom_SingleLightmap (SurfaceOutputCustom s, fixed4 color)
+		{
+			half3 lm = DecodeLightmap (color);
+			
+			float lum = Luminance(lm);
+		#if TCP2_RAMPTEXT
+			fixed3 ramp = tex2D(_Ramp, fixed2(lum,lum));
+		#else
+			fixed3 ramp = smoothstep(_RampThreshold-_RampSmooth*0.5, _RampThreshold+_RampSmooth*0.5, lum);
+		#endif
+			_SColor = lerp(_HColor, _SColor, _SColor.a);	//Shadows intensity through alpha
+			ramp = lerp(_SColor.rgb,_HColor.rgb,ramp);
+			lm *= ramp * 2;
+			
+			return fixed4(lm, 0);
+		}
+		
+		inline fixed4 LightingToonyColorsCustom_DualLightmap (SurfaceOutputCustom s, fixed4 totalColor, fixed4 indirectOnlyColor, half indirectFade)
+		{
+			half3 lm = lerp (DecodeLightmap (indirectOnlyColor), DecodeLightmap (totalColor), indirectFade);
+			
+			float lum = Luminance(lm);
+		#if TCP2_RAMPTEXT
+			fixed3 ramp = tex2D(_Ramp, fixed2(lum,lum));
+		#else
+			fixed3 ramp = smoothstep(_RampThreshold-_RampSmooth*0.5, _RampThreshold+_RampSmooth*0.5, lum);
+		#endif
+			_SColor = lerp(_HColor, _SColor, _SColor.a);	//Shadows intensity through alpha
+			ramp = lerp(_SColor.rgb,_HColor.rgb,ramp);
+			lm *= ramp * 2;
+			
+			return fixed4(lm, 0);
+		}
+		
+	/// IF SPECULAR || SPECULAR_ANISOTROPIC
+		inline fixed4 LightingToonyColorsCustom_DirLightmap (SurfaceOutputCustom s, fixed4 color, fixed4 scale, half3 viewDir, bool surfFuncWritesNormal, out half3 specColor)
+	/// ELSE
+		inline fixed4 LightingToonyColorsCustom_DirLightmap (SurfaceOutputCustom s, fixed4 color, fixed4 scale, bool surfFuncWritesNormal)
+	///
+		{
+			UNITY_DIRBASIS
+			half3 scalePerBasisVector;
+			
+			half3 lm = DirLightmapDiffuse (unity_DirBasis, color, scale, s.Normal, surfFuncWritesNormal, scalePerBasisVector);
+			
+		/// IF SPECULAR || SPECULAR_ANISOTROPIC
+			half3 lightDir = normalize (scalePerBasisVector.x * unity_DirBasis[0] + scalePerBasisVector.y * unity_DirBasis[1] + scalePerBasisVector.z * unity_DirBasis[2]);
+			half3 h = normalize (lightDir + viewDir);
+			
+			float nh = max (0, dot (s.Normal, h));
+			float spec = pow (nh, s.Specular * 128.0);
+			
+			// specColor used outside in the forward path, compiled out in prepass
+			specColor = lm * _SpecColor.rgb * s.Gloss * spec;
+		///
+		
+			float lum = Luminance(lm);
+		#if TCP2_RAMPTEXT
+			fixed3 ramp = tex2D(_Ramp, fixed2(lum,lum));
+		#else
+			fixed3 ramp = smoothstep(_RampThreshold-_RampSmooth*0.5, _RampThreshold+_RampSmooth*0.5, lum);
+		#endif
+			_SColor = lerp(_HColor, _SColor, _SColor.a);	//Shadows intensity through alpha
+			ramp = lerp(_SColor.rgb,_HColor.rgb,ramp);
+			lm *= ramp * 2;
+			
+		/// IF SPECULAR || SPECULAR_ANISOTROPIC
+			return half4(lm, spec);
+		/// ELSE
+			return half4(lm, 0);
+		///
+		}
+	///
+		
+///
+/// IF VERTEX_FUNC
+		//================================================================
+		// VERTEX FUNCTION
+	/// IF RIM || RIM_OUTLINE && RIMDIR && BUMP && !RIM_VERTEX
+		
+		inline float3 TCP2_ObjSpaceViewDir( in float4 v )
+		{
+			float3 camPos = _WorldSpaceCameraPos;
+			camPos += mul(_RimDir, UNITY_MATRIX_V).xyz;
+			float3 objSpaceCameraPos = mul(_World2Object, float4(camPos, 1)).xyz * unity_Scale.w;
+			return objSpaceCameraPos - v.xyz;
+		}
+	///
+		
+/// IF DIRAMBIENT
+		fixed4 _TCP2_AMBIENT_RIGHT;
+		fixed4 _TCP2_AMBIENT_LEFT;
+		fixed4 _TCP2_AMBIENT_TOP;
+		fixed4 _TCP2_AMBIENT_BOTTOM;
+		fixed4 _TCP2_AMBIENT_FRONT;
+		fixed4 _TCP2_AMBIENT_BACK;
+		
+		half3 DirAmbient (half3 normal)
+		{
+			fixed3 retColor =
+				saturate( normal.x * _TCP2_AMBIENT_LEFT) +
+				saturate(-normal.x * _TCP2_AMBIENT_RIGHT) +
+				saturate( normal.y * _TCP2_AMBIENT_TOP) +
+				saturate(-normal.y * _TCP2_AMBIENT_BOTTOM) +
+				saturate( normal.z * _TCP2_AMBIENT_FRONT) +
+				saturate(-normal.z * _TCP2_AMBIENT_BACK);
+			return retColor * UNITY_LIGHTMODEL_AMBIENT.a;
+		}
+///
+		
+		struct appdata_tcp2
+		{
+			float4 vertex : POSITION;
+			float3 normal : NORMAL;
+			float4 texcoord : TEXCOORD0;
+			float4 texcoord1 : TEXCOORD1;
+	/// IF BUMP || PARALLAX || SPECULAR_ANISOTROPIC
+			float4 tangent : TANGENT;
+	///
+	/// IF VCOLORS || VCOLORS_BLENDING
+			fixed4 color : COLOR;
+	///
+		};
+		
+		void vert(inout appdata_tcp2 v, out Input o)
+		{
+			UNITY_INITIALIZE_OUTPUT(Input, o);
+	/// IF RIM || RIM_OUTLINE && RIMDIR && BUMP && !RIM_VERTEX
+			TANGENT_SPACE_ROTATION;
+			o.bViewDir = mul(rotation, TCP2_ObjSpaceViewDir(v.vertex));
+	///
+	/// IF RIM || RIM_OUTLINE && RIM_VERTEX
+		/// IF RIMDIR
+			_RimDir.x += UNITY_MATRIX_MV[0][3] * (1/UNITY_MATRIX_MV[2][3]) * (1-UNITY_MATRIX_P[3][3]);
+			_RimDir.y += UNITY_MATRIX_MV[1][3] * (1/UNITY_MATRIX_MV[2][3]) * (1-UNITY_MATRIX_P[3][3]);
+			float3 viewDir = normalize(UNITY_MATRIX_V[0].xyz * _RimDir.x + UNITY_MATRIX_V[1].xyz * _RimDir.y + UNITY_MATRIX_V[2].xyz * _RimDir.z);
+		/// ELSE
+			float3 viewDir = normalize(ObjSpaceViewDir(v.vertex));
+		///
+			half rim = 1.0f - saturate( dot(viewDir, v.normal) );
+			
+		/// IF RIM_OUTLINE
+			o.rim = smoothstep(_RimMin, _RimMax, rim) * _RimColor.a;
+		/// ELSE
+			o.rim = smoothstep(_RimMin, _RimMax, rim) * _RimColor.rgb * _RimColor.a;
+		///
+	///
+	/// IF SKETCH || SKETCH_GRADIENT
+			
+			//SKETCH
+			float4 pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		/// IF SKETCH_VERTEX
+			float4 screenPos = ComputeScreenPos(pos);
+			float2 screenUV = screenPos.xy / screenPos.w;
+			screenUV *= float2(_ScreenParams.x * 0.01, _ScreenParams.y * 0.01);
+			/// IF SKETCH_SCALE
+			screenUV *= UNITY_MATRIX_MV[2][3];
+			///
+			o.sketchUv = screenUV;
+		/// ELSE
+			o.sketchUv = ComputeScreenPos(pos);
+		///
+			o.sketchUv.xy = TRANSFORM_TEX(o.sketchUv, _SketchTex);
+			
+		/// IF SKETCH_VERTEX && SKETCH_ANIM
+			_Random.x = round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			_Random.y = -round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			o.sketchUv.xy += _Random.xy;
+		///
+	///
+	/// IF MATCAP
+			
+			//MATCAP
+		/// IF MATCAP_PIXEL && BUMP
+			TANGENT_SPACE_ROTATION;
+			o.matcap0 = mul(rotation, UNITY_MATRIX_IT_MV[0].xyz);
+			o.matcap1 = mul(rotation, UNITY_MATRIX_IT_MV[1].xyz);
+		/// ELSE
+			half2 capCoord;
+			capCoord.x = dot(UNITY_MATRIX_IT_MV[0].xyz, v.normal);
+			capCoord.y = dot(UNITY_MATRIX_IT_MV[1].xyz, v.normal);
+			o.matcap = capCoord * 0.5 + 0.5;
+		///
+	///
+	/// IF SPECULAR_ANISOTROPIC
+			
+			//ANISOTROPIC SPECULAR
+			o.tangentDir = v.tangent.xyz;
+	///
+	/// IF DIRAMBIENT
+			float3 worldN = mul((float3x3)_Object2World, SCALED_NORMAL);
+			o.ambient = DirAmbient(worldN);
+	///
+		}
+		
+///
+		//================================================================
+		// SURFACE FUNCTION
+		
+/// IF CUSTOM_LIGHTING
+		void surf (Input IN, inout SurfaceOutputCustom o)
+/// ELSE
+		void surf (Input IN, inout SurfaceOutput o)
+///
+		{
+/// IF BUMP && PARALLAX
+			//Parallax Offset
+			fixed height = tex2D(_ParallaxMap, IN.uv_BumpMap).a;
+		/// IF RIM_VERTEX || !RIMDIR
+			float2 offset = ParallaxOffset(height, _Parallax, IN.viewDir);
+		/// ELSE
+			float2 offset = ParallaxOffset(height, _Parallax, IN.bViewDir);
+		///
+			IN.uv_MainTex += offset;
+			IN.uv_BumpMap += offset;
+			
+///
+			fixed4 mainTex = tex2D(_MainTex, IN.uv_MainTex);
+			
+/// IF MASK1
+	/// IF UVMASK1
+			fixed4 mask1 = tex2D(_Mask1, IN.uv_Mask1);
+	/// ELSE
+			fixed4 mask1 = tex2D(_Mask1, IN.uv_MainTex);
+	///
+///
+/// IF MASK2
+	/// IF UVMASK2
+			fixed4 mask2 = tex2D(_Mask2, IN.uv_Mask2);
+	/// ELSE
+			fixed4 mask2 = tex2D(_Mask2, IN.uv_MainTex);
+	///
+///
+/// IF MASK3
+	/// IF UVMASK3
+			fixed4 mask3 = tex2D(_Mask3, IN.uv_Mask3);
+	/// ELSE
+			fixed4 mask3 = tex2D(_Mask3, IN.uv_MainTex);
+	///
+///
+/// IF VCOLORS_BLENDING
+			//Vertex Color Texture Blending
+			fixed4 tex2 = tex2D(_MainTex2, IN.uv_MainTex2);
+			mainTex = lerp(tex2, mainTex, IN.color.a);
+			
+///
+/// IF DETAIL_TEX
+			//Detail Tex
+	/// IF DETAIL_UV2
+			fixed4 detail = tex2D(_Detail, IN.uv2_Detail);
+	/// ELSE
+			fixed4 detail = tex2D(_Detail, IN.uv_Detail);
+	///
+	/// IF DETAIL_MASK
+			mainTex.rgb = lerp(mainTex.rgb, detail.rgb, @%DETAIL_MASK%@@%DETAIL_MASK_CHANNEL%@);
+	/// ELSE
+			mainTex.rgb *= (detail.rgb * 2.0);
+	///
+			
+///
+/// IF VCOLORS
+			mainTex *= IN.color;
+///
+/// IF COLORMASK
+			_Color = lerp(fixed4(1,1,1,1), _Color, @%COLORMASK%@@%COLORMASK_CHANNEL%@);
+///
+			o.Albedo = mainTex.rgb * _Color.rgb;
+			o.Alpha = mainTex.a * _Color.a;
+			
+/// IF SKETCH || SKETCH_GRADIENT
+			//Sketch
+	/// IF SKETCH_VERTEX
+			o.ScreenUVs = IN.sketchUv;
+	/// ELSE
+			float2 screenUV = IN.sketchUv.xy / IN.sketchUv.w;
+			screenUV *= float2(_ScreenParams.x * 0.01, _ScreenParams.y * 0.01);
+		/// IF !SKETCH_VERTEX && SKETCH_ANIM
+			_Random.x = round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			_Random.y = -round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			screenUV.xy += _Random.xy;
+		///
+		/// IF SKETCH_SCALE
+			screenUV *= UNITY_MATRIX_MV[2][3];
+		///
+			o.ScreenUVs = screenUV;
+	///
+			
+///
+/// IF SPECULAR || SPECULAR_ANISOTROPIC
+	/// IF SPEC_SHIN_MASK
+			_Shininess *= @%SPEC_SHIN_MASK%@@%SPEC_SHIN_MASK_CHANNEL%@;
+	///
+			//Specular
+	/// IF SPECULAR_MASK
+			o.Gloss = @%SPEC_MASK%@@%SPEC_MASK_CHANNEL%@;
+	/// ELSE
+			o.Gloss = 1;
+	///
+			o.Specular = _Shininess;
+	/// IF SPECULAR_ANISOTROPIC
+			o.Tangent = IN.tangentDir;
+	///
+///
+/// IF BUMP
+			//Normal map
+			o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));
+///
+/// IF REFLECTION
+	/// IF BUMP
+			float3 worldRefl = WorldReflectionVector(IN, o.Normal);
+	/// ELSE
+			float3 worldRefl = IN.worldRefl;
+	///
+	/// IF REFL_ROUGH
+			fixed4 reflColor = texCUBElod(_Cube, half4(worldRefl.xyz, _ReflectRoughness));
+	/// ELSE
+			fixed4 reflColor = texCUBE(_Cube, worldRefl);
+	///
+	/// IF REFL_MASK
+			reflColor *= @%REFL_MASK%@@%REFL_MASK_CHANNEL%@;
+	///
+	/// IF REFL_COLOR
+			reflColor.rgb *= _ReflectColor.rgb * _ReflectColor.a;
+	///
+	/// IF !RIM_REFL
+			o.Emission += reflColor.rgb;
+	///
+///
+/// IF RIM || RIM_OUTLINE && RIM_VERTEX
+			//Rim
+	/// IF RIM_MASK
+			IN.rim *= @%RIM_MASK%@@%RIM_MASK_CHANNEL%@;
+	///
+	/// IF RIM_OUTLINE
+			o.Albedo = lerp(o.Albedo.rgb, _RimColor.rgb, IN.rim);
+			o.Albedo = lerp(o.Albedo.rgb, _RimColor.rgb, IN.rim);
+	/// ELSE
+		/// IF REFLECTION && RIM_REFL
+			o.Emission += (IN.rim * reflColor.rgb);
+		/// ELSE
+			o.Emission += IN.rim;
+		///
+	///
+/// ELIF RIM || RIM_OUTLINE
+			//Rim
+	/// IF RIMDIR && BUMP
+			float3 viewDir = normalize(IN.bViewDir);
+	/// ELIF RIMDIR
+			_RimDir.x += UNITY_MATRIX_MV[0][3] * (1/UNITY_MATRIX_MV[2][3]) * (1-UNITY_MATRIX_P[3][3]);
+			_RimDir.y += UNITY_MATRIX_MV[1][3] * (1/UNITY_MATRIX_MV[2][3]) * (1-UNITY_MATRIX_P[3][3]);
+			float3 viewDir = normalize(UNITY_MATRIX_V[0].xyz * _RimDir.x + UNITY_MATRIX_V[1].xyz * _RimDir.y + UNITY_MATRIX_V[2].xyz * _RimDir.z);
+	/// ELSE
+			float3 viewDir = normalize(IN.viewDir);
+	///
+			half rim = 1.0f - saturate( dot(viewDir, o.Normal) );
+			rim = smoothstep(_RimMin, _RimMax, rim);
+	/// IF RIM_MASK
+			rim *= @%RIM_MASK%@@%RIM_MASK_CHANNEL%@;
+	///
+	/// IF RIM
+		/// IF REFLECTION && RIM_REFL
+			o.Emission += (_RimColor.rgb * rim * reflColor.rgb) * _RimColor.a;
+		/// ELSE
+			o.Emission += (_RimColor.rgb * rim) * _RimColor.a;
+		///
+	///
+	/// IF RIM_OUTLINE
+			o.Albedo = lerp(o.Albedo.rgb, _RimColor.rgb, rim * _RimColor.a);
+	///
+///
+/// IF MATCAP
+			//MatCap
+	/// IF MATCAP_PIXEL && BUMP
+			half2 capCoord = half2(dot(IN.matcap0, o.Normal), dot(IN.matcap1, o.Normal));
+			fixed3 matcap = tex2D(_MatCap, capCoord*0.5+0.5).rgb;
+	/// ELSE
+			fixed3 matcap = tex2D(_MatCap, IN.matcap).rgb;
+	///
+			
+	/// IF MATCAP_MULT
+		/// IF MASK_MC && MC_COLOR
+			o.Albedo *= lerp(fixed3(1,1,1), matcap.rgb * _MatCapColor.rgb, @%MASK_MC%@@%MASK_MC_CHANNEL%@ * _MatCapColor.a);
+		/// ELIF MC_COLOR
+			o.Albedo *= lerp(fixed3(1,1,1), matcap.rgb * _MatCapColor.rgb, _MatCapColor.a);
+		/// ELIF MASK_MC
+			o.Albedo *= lerp(fixed3(1,1,1), matcap.rgb, @%MASK_MC%@@%MASK_MC_CHANNEL%@);
+		/// ELSE
+			o.Albedo *= matcap.rgb;
+		///
+	/// ELIF MATCAP_ADD
+		/// IF MASK_MC && MC_COLOR
+			o.Emission += matcap.rgb * @%MASK_MC%@@%MASK_MC_CHANNEL%@ * _MatCapColor.rgb * _MatCapColor.a;
+		/// ELIF MC_COLOR
+			o.Emission += matcap.rgb * _MatCapColor.rgb * _MatCapColor.a;
+		/// ELIF MASK_MC
+			o.Emission += matcap.rgb * @%MASK_MC%@@%MASK_MC_CHANNEL%@;
+		/// ELSE
+			o.Emission += matcap.rgb;
+		///
+	///
+			
+///
+/// IF ILLUMINATION
+	/// IF ILLUM_COLOR
+			o.Emission += mainTex.rgb * (@%ILLUMIN_MASK%@@%ILLUMIN_MASK_CHANNEL%@ * _IllumColor.a) * _IllumColor.rgb;
+	/// ELSE
+			o.Emission += mainTex.rgb * @%ILLUMIN_MASK%@@%ILLUMIN_MASK_CHANNEL%@;
+	///
+			
+///
+/// IF CUSTOM_AMBIENT
+#ifdef FORWARD_BASE
+	/// IF OCCLUSION
+			//Occlusion Map
+		/// IF OCCL_RGB
+			fixed3 occlusion = tex2D(_OcclusionMap, IN.uv_MainTex).rgb;
+		/// ELSE
+			fixed occlusion = tex2D(_OcclusionMap, IN.uv_MainTex).a;
+		///
+			
+	///
+	/// IF CUBE_AMBIENT
+			
+			//Ambient Cubemap
+			fixed4 cubeAmbient = texCUBE(_AmbientCube, IN.worldNormal);
+	///
+	/// IF CUBE_AMBIENT && OCCLUSION
+			o.Emission += o.Albedo * cubeAmbient.rgb * UNITY_LIGHTMODEL_AMBIENT.a * occlusion;
+	/// ELIF CUBE_AMBIENT
+			o.Emission += o.Albedo * cubeAmbient.rgb * UNITY_LIGHTMODEL_AMBIENT.a;
+	/// ELIF OCCLUSION
+			o.Emission += o.Albedo * UNITY_LIGHTMODEL_AMBIENT.rgb * 2.0 * occlusion;
+	///
+	/// IF DIRAMBIENT
+			o.Emission += IN.ambient;
+	///
+#endif
+///
+/// IF TEXTURED_THRESHOLD
+			//TEXTURED THRESHOLD
+			o.TexThreshold = tex2D(_ThresholdTex, IN.uv_ThresholdTex).a - 0.5;
+///
+		}
+		
+/// IF FINAL_COLOR
+		//================================================================
+		// FINAL COLOR MODIFIER
+		
+	/// IF CUSTOM_LIGHTING
+		void fcolor(Input IN, SurfaceOutputCustom o, inout fixed4 color)
+	/// ELSE
+		void fcolor(Input IN, SurfaceOutput o, inout fixed4 color)
+	///
+		{
+			//Nothing here currently!
+		}
+		
+///
+		ENDCG
+/// IF OUTLINE || OUTLINE_BLENDING && !OUTLINE_BEHIND
+		
+		//Outlines
+	/// IF OUTLINE
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only (Shader Model 2)/OUTLINE"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only/OUTLINE"
+		///
+	///
+	/// IF OUTLINE_BLENDING
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjectors"="True" }
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only (Shader Model 2)/OUTLINE_BLENDING"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only/OUTLINE_BLENDING"
+		///
+	///
+///
+	}
+	
+	Fallback "Diffuse"
+	CustomEditor "TCP2_MaterialInspector"
+}

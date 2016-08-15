@@ -185,9 +185,9 @@
 
                 // Get dot product to use as ramp UV coords.
                 // Transformed from -1 to 1 range to 0 - 1 range so it can use the full dimensions of the ramp texture.
-                fixed NdotL = dot(i.normal, i.lightDir);
+                fixed NdotL = dot(i.normal, i.lightDir)*.5+.5;
                     
-                fixed2 newCoords = fixed2(NdotL*i.color.r*_OutlineColor.r,i.uv.y);
+                fixed2 newCoords = fixed2((NdotL)*i.color.r*_OutlineColor.r,i.uv.y);
                 fixed4 c = tex2D (_MainTex, newCoords);
                 c.rgb *= _Color.rgb;
                	c.a = _OutlineColor.a;

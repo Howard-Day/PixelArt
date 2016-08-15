@@ -10,13 +10,13 @@ QualitySettings:
     name: Fantastic
     pixelLightCount: 1
     shadows: 1
-    shadowResolution: 1
-    shadowProjection: 1
+    shadowResolution: 3
+    shadowProjection: 0
     shadowCascades: 1
-    shadowDistance: 250
-    shadowNearPlaneOffset: 200
-    shadowCascade2Split: .739252806
-    shadowCascade4Split: {x: .218290418, y: .28716436, z: .442316771}
+    shadowDistance: 450
+    shadowNearPlaneOffset: 1
+    shadowCascade2Split: 0.7392528
+    shadowCascade4Split: {x: 0.08079045, y: 0.14787863, z: 0.18160248}
     blendWeights: 1
     textureQuality: 0
     anisotropicTextures: 1
@@ -29,6 +29,8 @@ QualitySettings:
     lodBias: 2
     maximumLODLevel: 0
     particleRaycastBudget: 4096
+    asyncUploadTimeSlice: 2
+    asyncUploadBufferSize: 4
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
     Android: 0

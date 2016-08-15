@@ -1,4 +1,6 @@
-﻿Shader "Pixel Art/ObjDepth" {
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+Shader "Pixel Art/ObjDepth" {
     Properties {
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1,1,1,1)
@@ -39,7 +41,7 @@
                     o.pos = mul(UNITY_MATRIX_MVP, i.vertex);
                     fixed4 ObjDepth = mul(UNITY_MATRIX_IT_MV, i.vertex);
                     o.color = ObjDepth/2;
-                    o.worldPos = mul(_Object2World, i.vertex);
+                    o.worldPos = mul(unity_ObjectToWorld, i.vertex);
                     return o;
                 }
  

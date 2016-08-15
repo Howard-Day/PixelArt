@@ -1,4 +1,6 @@
-﻿Shader "Pixel Art/Dither" {
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+Shader "Pixel Art/Dither" {
     Properties {
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1,1,1,1)
@@ -39,7 +41,7 @@
                     o.pos = mul(UNITY_MATRIX_MVP, i.vertex);
                     fixed4 ObjDepth = mul(UNITY_MATRIX_IT_MV, i.vertex);
                     o.color = ObjDepth;
-                    o.worldPos = mul(_Object2World, i.vertex);
+                    o.worldPos = mul(unity_ObjectToWorld, i.vertex);
                     return o;
                 }
  

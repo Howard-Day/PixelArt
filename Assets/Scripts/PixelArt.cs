@@ -18,7 +18,7 @@ public class PixelArt : MonoBehaviour
 	public Shader BufferShader; 
 	public LayerMask BufferLayer;
 	public static int BufferAA = 2;
-	public float AAMulti = 2.5f;
+	public float AAMulti = 1.5f;
 	public static float vertPixelLocking;
 	public Texture2D defaultLUT;
 	public Texture2D ditherTex; 
@@ -97,6 +97,7 @@ public class PixelArt : MonoBehaviour
 		if (Application.platform == RuntimePlatform.OSXWebPlayer || Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.WebGLPlayer) {
 			OutlinePixelScaling *= -.05f;	
 		} 
+		//OutlinePixelScaling *= 1.5f;
 		if (!enableOutlines)
 			OutlinePixelScaling = 0;
 		if(BufferAA == 1)
@@ -108,7 +109,7 @@ public class PixelArt : MonoBehaviour
 		if(isOrthographic)
 		{	
 			
-			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 1600 )* (768f/Screen.height) * (Camera.main.orthographicSize/12)*OutlinePixelScaling ); 
+			Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth / 2f)* (768f/Screen.height) * (Camera.main.orthographicSize/90)*OutlinePixelScaling ); 
 			Shader.SetGlobalVector("_DitherScale", new Vector4(Screen.width/256f/pixelScale, Screen.height/256f/pixelScale,0,0) );
 			//Debug.Log (Screen.width/256f);
 		}
@@ -182,7 +183,7 @@ public class PixelArt : MonoBehaviour
 		} 
 		else {
 			Shader.SetGlobalFloat ("_PixelSnap", (vertPixelLocking/2));
-			Debug.Log((vertPixelLocking / 2));
+			//Debug.Log((vertPixelLocking / 2));
 		}
 		if (!AABufferMat) {
 			AABufferMat = new Material (BufferShader);
@@ -243,6 +244,10 @@ public class PixelArt : MonoBehaviour
 
 	}
 	void OnApplicationQuit(){
+		Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 2f )* (768f/Screen.height));
+		CleanBuffers();
+	}
+	void OnDestroy(){
 		Shader.SetGlobalFloat ("_OutlineWidth", (shaderOutlineWidth * 2f )* (768f/Screen.height));
 		CleanBuffers();
 	}
