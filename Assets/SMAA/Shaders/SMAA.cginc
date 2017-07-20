@@ -36,14 +36,14 @@
  *                 \   \    |  |\/|  |   /  /_\  \     /  /_\  \
  *              ----)   |   |  |  |  |  /  _____  \   /  _____  \
  *             |_______/    |__|  |__| /__/     \__\ /__/     \__\
- * 
+ *
  *                               E N H A N C E D
  *       S U B P I X E L   M O R P H O L O G I C A L   A N T I A L I A S I N G
  *
  *                         http://www.iryoku.com/smaa/
  *
  * Hi, welcome aboard!
- * 
+ *
  * Here you'll find instructions to get the shader up and running as fast as
  * possible.
  *
@@ -132,14 +132,14 @@
  *     this last pass are not possible, the technique will work anyway, but
  *     will perform antialiasing in gamma space.
  *
- *     IMPORTANT: for best results the input read for the color/luma edge 
+ *     IMPORTANT: for best results the input read for the color/luma edge
  *     detection should *NOT* be sRGB.
  *
  *  6. Before including SMAA.h you'll have to setup the render target metrics,
  *     the target and any optional configuration defines. Optionally you can
  *     use a preset.
  *
- *     You have the following targets available: 
+ *     You have the following targets available:
  *         SMAA_HLSL_3
  *         SMAA_HLSL_4
  *         SMAA_HLSL_4_1
@@ -331,7 +331,7 @@
 /**
  * SMAA_THRESHOLD specifies the threshold or sensitivity to edges.
  * Lowering this value you will be able to detect more edges at the expense of
- * performance. 
+ * performance.
  *
  * Range: [0, 0.5]
  *   0.1 is a reasonable value, and allows to catch most visible edges.
@@ -346,7 +346,7 @@
 
 /**
  * SMAA_DEPTH_THRESHOLD specifies the threshold for depth edge detection.
- * 
+ *
  * Range: depends on the depth range of the scene.
  */
 #ifndef SMAA_DEPTH_THRESHOLD
@@ -374,7 +374,7 @@
  *
  * Range: [0, 20]
  *
- * On high-end machines it is cheap (between a 0.8x and 0.9x slower for 16 
+ * On high-end machines it is cheap (between a 0.8x and 0.9x slower for 16
  * steps), but it can have a significant impact on older machines.
  *
  * Define SMAA_DISABLE_DIAG_DETECTION to disable diagonal processing.
@@ -416,16 +416,16 @@
  * It locally decreases the luma or color threshold if an edge is found in an
  * additional buffer (so the global threshold can be higher).
  *
- * This method was developed by Playstation EDGE MLAA team, and used in 
+ * This method was developed by Playstation EDGE MLAA team, and used in
  * Killzone 3, by using the light accumulation buffer. More information here:
- *     http://iryoku.com/aacourse/downloads/06-MLAA-on-PS3.pptx 
+ *     http://iryoku.com/aacourse/downloads/06-MLAA-on-PS3.pptx
  */
 #ifndef SMAA_PREDICATION
 #define SMAA_PREDICATION 0
 #endif
 
 /**
- * Threshold to be used in the additional predication buffer. 
+ * Threshold to be used in the additional predication buffer.
  *
  * Range: depends on the input, so you'll have to find the magic number that
  * works for you.
@@ -466,6 +466,18 @@
  */
 #ifndef SMAA_REPROJECTION
 #define SMAA_REPROJECTION 0
+#endif
+
+/**
+ * Temporal reprojection allows to remove ghosting artifacts when using
+ * temporal supersampling. However, the default reprojection requires a velocity buffer
+ * in order to function properly.
+ *
+ * A velocity buffer might not always be available (hi Unity 5!). To handle such cases
+ * we provide a UV-based approximation for calculating motion vectors on the fly.
+ */
+#ifndef SMAA_UV_BASED_REPROJECTION
+#define SMAA_UV_BASED_REPROJECTION 0
 #endif
 
 /**
@@ -899,7 +911,7 @@ float2 SMAASearchDiag2(SMAATexture2D(edgesTex), float2 texcoord, float2 dir, out
     return coord.zw;
 }
 
-/** 
+/**
  * Similar to SMAAArea, this calculates the area corresponding to a certain
  * diagonal distance and crossing edges 'e'.
  */
@@ -956,7 +968,7 @@ float2 SMAACalculateDiagWeights(SMAATexture2D(edgesTex), SMAATexture2D(areaTex),
         float2 cc = mad(float2(2.0, 2.0), c.xz, c.yw);
 
         // Remove the crossing edge if we didn't found the end of the line:
-        SMAAMovc(bool2(step(0.9, d.zw)), cc, float2(0.0, 0.0));
+        SMAAMovc(bool2(step(float2(0.9, 0.9), d.zw)), cc, float2(0.0, 0.0));
 
         // Fetch the areas for this line:
         weights += SMAAAreaDiag(SMAATexturePass2D(areaTex), d.xy, cc, subsampleIndices.z);
@@ -981,7 +993,7 @@ float2 SMAACalculateDiagWeights(SMAATexture2D(edgesTex), SMAATexture2D(areaTex),
         float2 cc = mad(float2(2.0, 2.0), c.xz, c.yw);
 
         // Remove the crossing edge if we didn't found the end of the line:
-        SMAAMovc(bool2(step(0.9, d.zw)), cc, float2(0.0, 0.0));
+        SMAAMovc(bool2(step(float2(0.9, 0.9), d.zw)), cc, float2(0.0, 0.0));
 
         // Fetch the areas for this line:
         weights += SMAAAreaDiag(SMAATexturePass2D(areaTex), d.xy, cc, subsampleIndices.w).gr;
@@ -996,7 +1008,7 @@ float2 SMAACalculateDiagWeights(SMAATexture2D(edgesTex), SMAATexture2D(areaTex),
 
 /**
  * This allows to determine how much length should we add in the last step
- * of the searches. It takes the bilinearly interpolated edge (see 
+ * of the searches. It takes the bilinearly interpolated edge (see
  * @PSEUDO_GATHER4), and adds 0, 1 or 2, depending on which edges and
  * crossing edges are active.
  */
@@ -1031,7 +1043,7 @@ float SMAASearchXLeft(SMAATexture2D(edgesTex), SMAATexture2D(searchTex), float2 
      * which edges are active from the four fetched ones.
      */
     float2 e = float2(0.0, 1.0);
-    while (texcoord.x > end && 
+    while (texcoord.x > end &&
            e.g > 0.8281 && // Is there some edge not activated?
            e.r == 0.0) { // Or is there a crossing edge that breaks the line?
         e = SMAASampleLevelZero(edgesTex, texcoord).rg;
@@ -1056,7 +1068,7 @@ float SMAASearchXLeft(SMAATexture2D(edgesTex), SMAATexture2D(searchTex), float2 
 
 float SMAASearchXRight(SMAATexture2D(edgesTex), SMAATexture2D(searchTex), float2 texcoord, float end) {
     float2 e = float2(0.0, 1.0);
-    while (texcoord.x < end && 
+    while (texcoord.x < end &&
            e.g > 0.8281 && // Is there some edge not activated?
            e.r == 0.0) { // Or is there a crossing edge that breaks the line?
         e = SMAASampleLevelZero(edgesTex, texcoord).rg;
@@ -1068,7 +1080,7 @@ float SMAASearchXRight(SMAATexture2D(edgesTex), SMAATexture2D(searchTex), float2
 
 float SMAASearchYUp(SMAATexture2D(edgesTex), SMAATexture2D(searchTex), float2 texcoord, float end) {
     float2 e = float2(1.0, 0.0);
-    while (texcoord.y > end && 
+    while (texcoord.y > end &&
            e.r > 0.8281 && // Is there some edge not activated?
            e.g == 0.0) { // Or is there a crossing edge that breaks the line?
         e = SMAASampleLevelZero(edgesTex, texcoord).rg;
@@ -1080,7 +1092,7 @@ float SMAASearchYUp(SMAATexture2D(edgesTex), SMAATexture2D(searchTex), float2 te
 
 float SMAASearchYDown(SMAATexture2D(edgesTex), SMAATexture2D(searchTex), float2 texcoord, float end) {
     float2 e = float2(1.0, 0.0);
-    while (texcoord.y < end && 
+    while (texcoord.y < end &&
            e.r > 0.8281 && // Is there some edge not activated?
            e.g == 0.0) { // Or is there a crossing edge that breaks the line?
         e = SMAASampleLevelZero(edgesTex, texcoord).rg;
@@ -1090,14 +1102,14 @@ float SMAASearchYDown(SMAATexture2D(edgesTex), SMAATexture2D(searchTex), float2 
     return mad(-SMAA_RT_METRICS.y, offset, texcoord.y);
 }
 
-/** 
+/**
  * Ok, we have the distance and both crossing edges. So, what are the areas
  * at each side of current edge?
  */
 float2 SMAAArea(SMAATexture2D(areaTex), float2 dist, float e1, float e2, float offset) {
     // Rounding prevents precision errors of bilinear filtering:
     float2 texcoord = mad(float2(SMAA_AREATEX_MAX_DISTANCE, SMAA_AREATEX_MAX_DISTANCE), round(4.0 * float2(e1, e2)), dist);
-    
+
     // We do a scale and bias for mapping to texel space:
     texcoord = mad(SMAA_AREATEX_PIXEL_SIZE, texcoord, 0.5 * SMAA_AREATEX_PIXEL_SIZE);
 
@@ -1145,6 +1157,7 @@ void SMAADetectVerticalCornerPattern(SMAATexture2D(edgesTex), inout float2 weigh
     #endif
 }
 
+
 //-----------------------------------------------------------------------------
 // Blending Weight Calculation Pixel Shader (Second Pass)
 
@@ -1166,7 +1179,7 @@ float4 SMAABlendingWeightCalculationPS(float2 texcoord,
         // one of the boundaries is enough.
         weights.rg = SMAACalculateDiagWeights(SMAATexturePass2D(edgesTex), SMAATexturePass2D(areaTex), texcoord, e, subsampleIndices);
 
-        // We give priority to diagonals, so if we find a diagonal we skip 
+        // We give priority to diagonals, so if we find a diagonal we skip
         // horizontal/vertical processing.
         SMAA_BRANCH
         if (weights.r == -weights.g) { // weights.r + weights.g == 0.0
@@ -1234,7 +1247,7 @@ float4 SMAABlendingWeightCalculationPS(float2 texcoord,
         // We want the distances to be in pixel units:
         d = abs(round(mad(SMAA_RT_METRICS.ww, d, -pixcoord.yy)));
 
-        // SMAAArea below needs a sqrt, as the areas texture is compressed 
+        // SMAAArea below needs a sqrt, as the areas texture is compressed
         // quadratically:
         float2 sqrt_d = sqrt(d);
 
@@ -1251,6 +1264,27 @@ float4 SMAABlendingWeightCalculationPS(float2 texcoord,
 
     return weights;
 }
+
+//-----------------------------------------------------------------------------
+// UV-based reprojection functions
+
+#if SMAA_UV_BASED_REPROJECTION
+float2 SMAAReproject(float2 texcoord)
+{
+    // UV to clip-position:
+    // -- This must be sampled at exactly mip 0 due to possible gradient divergence
+    // -- as this function is called within a control flow block down below.
+    float depth = SMAASampleLevelZero(_CameraDepthTexture, texcoord).r;
+    float3 clipPosition = float3(2. * texcoord - 1., depth);
+
+    // Reproject
+    float4 previousClipPosition = mul(_ReprojectionMatrix, float4(clipPosition, 1.));
+    previousClipPosition.xyz /= previousClipPosition.w;
+
+    // Clip-position to UV
+    return (.5 * previousClipPosition.xy + .5);
+}
+#endif
 
 //-----------------------------------------------------------------------------
 // Neighborhood Blending Pixel Shader (Third Pass)
@@ -1276,7 +1310,11 @@ float4 SMAANeighborhoodBlendingPS(float2 texcoord,
 
         #if SMAA_REPROJECTION
         float2 velocity = SMAA_DECODE_VELOCITY(SMAASampleLevelZero(velocityTex, texcoord));
+        #elif SMAA_UV_BASED_REPROJECTION
+        float2 velocity = texcoord - SMAAReproject(texcoord);
+        #endif
 
+        #if (SMAA_REPROJECTION || SMAA_UV_BASED_REPROJECTION)
         // Pack velocity into the alpha channel:
         color.a = sqrt(5.0 * length(velocity));
         #endif
@@ -1304,7 +1342,13 @@ float4 SMAANeighborhoodBlendingPS(float2 texcoord,
         // Antialias velocity for proper reprojection in a later stage:
         float2 velocity = blendingWeight.x * SMAA_DECODE_VELOCITY(SMAASampleLevelZero(velocityTex, blendingCoord.xy));
         velocity += blendingWeight.y * SMAA_DECODE_VELOCITY(SMAASampleLevelZero(velocityTex, blendingCoord.zw));
+        #elif SMAA_UV_BASED_REPROJECTION
+        // Antialias velocity for proper reprojection in a later stage:
+        float2 velocity = blendingWeight.x * (blendingCoord.xy - SMAAReproject(blendingCoord.xy));
+        velocity += blendingWeight.y * (blendingCoord.zw - SMAAReproject(blendingCoord.zw));
+        #endif
 
+        #if (SMAA_REPROJECTION || SMAA_UV_BASED_REPROJECTION)
         // Pack velocity into the alpha channel:
         color.a = sqrt(5.0 * length(velocity));
         #endif
@@ -1327,7 +1371,11 @@ float4 SMAAResolvePS(float2 texcoord,
     // Velocity is assumed to be calculated for motion blur, so we need to
     // inverse it for reprojection:
     float2 velocity = -SMAA_DECODE_VELOCITY(SMAASamplePoint(velocityTex, texcoord).rg);
+    #elif SMAA_UV_BASED_REPROJECTION
+    float2 velocity = SMAAReproject(texcoord) - texcoord;
+    #endif
 
+    #if (SMAA_REPROJECTION || SMAA_UV_BASED_REPROJECTION)
     // Fetch current pixel:
     float4 current = SMAASamplePoint(currentColorTex, texcoord);
 
@@ -1339,7 +1387,25 @@ float4 SMAAResolvePS(float2 texcoord,
     float weight = 0.5 * saturate(1.0 - sqrt(delta) * SMAA_REPROJECTION_WEIGHT_SCALE);
 
     // Blend the pixels according to the calculated weight:
-    return lerp(current, previous, weight);
+    // return lerp(current, previous, weight);
+
+    // Neighbour clamp
+    // Contributed by pommak
+    float4 n0 = SMAASampleOffset(currentColorTex, texcoord, float2(-1, -1));
+    float4 n1 = SMAASampleOffset(currentColorTex, texcoord, float2(+1, -1));
+    float4 n2 = SMAASampleOffset(currentColorTex, texcoord, float2(-1, +1));
+    float4 n3 = SMAASampleOffset(currentColorTex, texcoord, float2(+1, +1));
+    float4 cmax = max(n0, max(n1, max(n2, n3)));
+    float4 cmin = min(n0, min(n1, min(n2, n3)));
+    float4 avg = 0.25 * (n0+n1+n2+n3);
+    float4 wk = abs(avg - current);
+    float blend = saturate(lerp(0.35, 0.85, wk));
+
+    // Clamp previous to neighbours colors
+    float4 previousClamped = clamp(previous, cmin, cmax);
+
+    float4 color = lerp(lerp(current, previousClamped, 0.5*weight), previousClamped, weight);
+    return color;
     #else
     // Just blend the pixels:
     float4 current = SMAASamplePoint(currentColorTex, texcoord);

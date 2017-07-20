@@ -79,7 +79,7 @@ public class FlareControl : MonoBehaviour {
 		Visibility = flare.GetComponent<Renderer>();
 		Visibility.sharedMaterial = FlareMaterial;
 		Visibility.receiveShadows = false;
-		Visibility.useLightProbes = false;
+		Visibility.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;// = false;
 		Visibility.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off; 
 		FlareGeo = flare.transform;
 		hasInitialized = true;

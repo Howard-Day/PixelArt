@@ -11,7 +11,7 @@ public class Screenshot : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.F10))
 		   {
 			//Application.CaptureScreenshot(ScreenshotPrefix + CurrentNumber.ToString + ".png");
-			Application.CaptureScreenshot(ScreenshotPrefix + CurrentNumber + ".png");
+			ScreenCapture.CaptureScreenshot(ScreenshotPrefix + CurrentNumber + ".png");
 			Debug.Log (ScreenshotPrefix + CurrentNumber + ".png");
 			CurrentNumber++;
 		}

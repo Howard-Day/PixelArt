@@ -1,4 +1,6 @@
-﻿
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+
 Shader "Pixel Art/ScreenBlend" {
 Properties {
    _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
@@ -9,12 +11,12 @@ SubShader {
    Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
    LOD 100
  
-   BlendOp Add
+   //BlendOp Add
    Blend OneMinusDstColor One, One Zero // screen
    //Blend SrcAlpha One, One Zero // linear dodge
    ZWrite Off
    //AlphaTest Greater .01
-   Cull Back
+   //Cull Back
    Pass {
      CGPROGRAM
        #pragma vertex vert
@@ -41,7 +43,7 @@ SubShader {
        v2f vert (appdata_t v)
        {
          v2f o;
-         o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+         o.vertex = UnityObjectToClipPos(v.vertex);
          o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
          o.color = v.color;
          return o;

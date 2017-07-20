@@ -18,19 +18,21 @@ public class ParticlePlay : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		float FrameDelta = Mathf.Round(PixelArt.FPS/FrameRate);
-		if (!DemoSceneControl.Play) {
+		if (!SceneControl.Play) {
 			foreach(ParticleSystem emitter in emitters){
-				emitter.playbackSpeed = 0;
+				var main = emitter.main;
+				main.simulationSpeed = 0;
 			}
 
 		} 
 		else {
-			if(steppedSimulate){
+			if(steppedSimulate){ 
 				
 				if(PixelArt.framecount >= nextStep)
 				{
 					foreach(ParticleSystem emitter in emitters){
-						emitter.playbackSpeed = 1*FrameDelta;
+						var main = emitter.main;
+						main.simulationSpeed = 1*FrameDelta;
 					}
 					nextStep = Mathf.Round(PixelArt.framecount+FrameDelta);
 					if(debugStep)
@@ -38,7 +40,8 @@ public class ParticlePlay : MonoBehaviour {
 				}
 				else {
 					foreach(ParticleSystem emitter in emitters){
-						emitter.playbackSpeed = 0;
+						var main = emitter.main;
+						main.simulationSpeed = 0;
 					}
 					if(debugStep)
 						Debug.Log("Not Stepping");
@@ -47,7 +50,8 @@ public class ParticlePlay : MonoBehaviour {
 			}
 			else {
 				foreach(ParticleSystem emitter in emitters){
-					emitter.playbackSpeed = 1;
+					var main = emitter.main;
+					main.simulationSpeed = 1;
 				}
 			}
 		}

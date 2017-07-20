@@ -51,14 +51,14 @@ public class PixelArt : MonoBehaviour
 			Shader.SetGlobalTexture ("_DitherTex",ditherTex);
 	}
 	void CleanBuffers(){
-		if (transform.FindChild ("Buffer Camera"))
-			DestroyImmediate(transform.FindChild ("Buffer Camera").gameObject);
-		if (transform.FindChild ("Buffer Camera"))
-			DestroyImmediate(transform.FindChild ("Buffer Camera").gameObject);
-		if (transform.FindChild ("Buffer Camera"))
-			DestroyImmediate(transform.FindChild ("Buffer Camera").gameObject);
-		if (transform.FindChild ("Buffer Camera"))
-			DestroyImmediate(transform.FindChild ("Buffer Camera").gameObject);
+		if (transform.Find ("Buffer Camera"))
+			DestroyImmediate(transform.Find ("Buffer Camera").gameObject);
+		if (transform.Find ("Buffer Camera"))
+			DestroyImmediate(transform.Find ("Buffer Camera").gameObject);
+		if (transform.Find ("Buffer Camera"))
+			DestroyImmediate(transform.Find ("Buffer Camera").gameObject);
+		if (transform.Find ("Buffer Camera"))
+			DestroyImmediate(transform.Find ("Buffer Camera").gameObject);
 	}
 	int OldAA;
 	Vector2 OldSize;
@@ -67,7 +67,7 @@ public class PixelArt : MonoBehaviour
 	void UpdateRTT(){
 		RenderCam = gameObject.GetComponent<Camera> ();
 		Buffer = new RenderTexture (horizontalResolution, verticalResolution, 16);
-		Buffer.generateMips = false;
+		Buffer.autoGenerateMips = false;
 		Buffer.filterMode = FilterMode.Point;
 		//Buffer.antiAliasing = BufferAA;
 		Buffer.name = "Pixel Buffer!";
@@ -76,7 +76,7 @@ public class PixelArt : MonoBehaviour
 			AABuffer = new RenderTexture(Mathf.CeilToInt(horizontalResolution*AAMulti),Mathf.CeilToInt(verticalResolution*AAMulti),16);
 
 			AABuffer.filterMode = FilterMode.Bilinear;
-			AABuffer.generateMips = false;
+			AABuffer.autoGenerateMips = false;
 			AABuffer.antiAliasing = 1;// BufferAA;
 
 			Buffer.name = "AA Pixel Buffer!";
@@ -94,7 +94,7 @@ public class PixelArt : MonoBehaviour
 			OutlinePixelScaling = .9f;
 		if (pixelScale == 1)
 			OutlinePixelScaling = .5f;
-		if (Application.platform == RuntimePlatform.OSXWebPlayer || Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.WebGLPlayer) {
+		if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.WebGLPlayer) {
 			OutlinePixelScaling *= -.05f;	
 		} 
 		//OutlinePixelScaling *= 1.5f;
@@ -179,7 +179,7 @@ public class PixelArt : MonoBehaviour
 		}
 		if (BufferAA > 1) {
 			Shader.SetGlobalFloat ("_PixelSnap", (vertPixelLocking / AAMulti/2));
-			Debug.Log ((vertPixelLocking / AAMulti / 2));
+			//Debug.Log ((vertPixelLocking / AAMulti / 2));
 		} 
 		else {
 			Shader.SetGlobalFloat ("_PixelSnap", (vertPixelLocking/2));

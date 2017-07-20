@@ -28,7 +28,7 @@ class AnimateTiledTexture : MonoBehaviour
 	
 	private IEnumerator updateTiling()
 	{
-		while (true && DemoSceneControl.Play)
+		while (true && SceneControl.Play)
 		{
 			//move to the next index
 			index++;
@@ -50,9 +50,9 @@ class AnimateTiledTexture : MonoBehaviour
 	}
 	void Update()
 	{
-		if (!DemoSceneControl.Play)
+		if (!SceneControl.Play)
 			hasBeenPaused = true;
-		if(DemoSceneControl.Play && hasBeenPaused)
+		if(SceneControl.Play && hasBeenPaused)
 			StartCoroutine(updateTiling());
 	}
 }

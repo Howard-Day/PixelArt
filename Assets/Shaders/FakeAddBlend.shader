@@ -1,9 +1,11 @@
-﻿
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+
 Shader "Pixel Art/Fake_Additive" {
 Properties {
    _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
    _Color ("Color", Color) = (1,1,1,1)
-   _PixelSnap ("Pixel Snap", float) = 1
+   _Intensity ("Intensity", float) = 1
    _AlphaClipOffset("Alpha Clipping Offset", float) = 0
    _AlphaDither("Alpha Dither Amount", float) = .3
    _ColorDither("Color Dither Amount", float) = .3
@@ -50,11 +52,11 @@ SubShader {
 	   fixed _AlphaDither;
 	   fixed _ColorDither;
 	   fixed _AlphaClipOffset;
-	          
+		fixed _Intensity;
        v2f vert (appdata_t v)
        {
          v2f o;
-         o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+         o.vertex = UnityObjectToClipPos(v.vertex);
  
  	// Snapping params
 		float hpcX = _ScreenParams.x * _PixelSnap;
@@ -91,7 +93,7 @@ SubShader {
 		
          fixed4 col = _Color*tex2D(_MainTex, i.texcoord)*i.color;
          col.a = saturate((col.a+dither*_AlphaDither-(_AlphaClipOffset*.25))*3048*2048);
-         col.rgb *= 1.5+(dither*_ColorDither)*4;
+         col.rgb *= 1.5+(dither*_ColorDither)*4*_Intensity;
          return col;
        }
      ENDCG

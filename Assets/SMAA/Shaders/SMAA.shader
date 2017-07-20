@@ -1,4 +1,6 @@
-﻿/*
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+/*
  * Copyright (c) 2015 Thomas Hourdel
  *
  * This software is provided 'as-is', without any express or implied
@@ -97,7 +99,7 @@ Shader "Hidden/Subpixel Morphological Antialiasing"
 		fInput_edge vert_edge(vInput i)
 		{
 			fInput_edge o;
-			o.pos = mul(UNITY_MATRIX_MVP, i.pos);
+			o.pos = UnityObjectToClipPos(i.pos);
 			o.uv = i.uv;
 
 			#if UNITY_UV_STARTS_AT_TOP
@@ -285,7 +287,7 @@ Shader "Hidden/Subpixel Morphological Antialiasing"
 				fInput vert(vInput i)
 				{
 					fInput o;
-					o.pos = mul(UNITY_MATRIX_MVP, i.pos);
+					o.pos = UnityObjectToClipPos(i.pos);
 					o.uv = i.uv;
 					o.pixcoord = o.uv * SMAA_RT_METRICS.zw;
 	
@@ -333,7 +335,7 @@ Shader "Hidden/Subpixel Morphological Antialiasing"
 				fInput vert(vInput i)
 				{
 					fInput o;
-					o.pos = mul(UNITY_MATRIX_MVP, i.pos);
+					o.pos = UnityObjectToClipPos(i.pos);
 					o.uv = i.uv;
 					o.offset = mad(SMAA_RT_METRICS.xyxy, float4(1.0, 0.0, 0.0, 1.0), o.uv.xyxy);
 					return o;

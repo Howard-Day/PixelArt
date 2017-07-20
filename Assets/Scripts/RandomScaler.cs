@@ -17,7 +17,7 @@ public class RandomScaler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (PixelArt.frames % checkFrame == 0 && DemoSceneControl.Play) {
+		if (PixelArt.frames % checkFrame == 0 && SceneControl.Play) {
 			NewScale = new Vector3(StartScale.x*NonlinearScale.x,StartScale.y*NonlinearScale.y,StartScale.z*NonlinearScale.z)*Random.Range(MinScale,MaxScale);
 			transform.localScale = NewScale;
 			checkFrame = Random.Range(MinFrameSkip,MaxFrameSkip);

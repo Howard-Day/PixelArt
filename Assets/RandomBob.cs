@@ -23,11 +23,10 @@ public class RandomBob : MonoBehaviour {
 			randomBob = Random.Range (-BobAmount, BobAmount);
 			BobFrame = Random.Range (BobFreq / 2, BobFreq);
 		}
-
-		BobHeight = Mathf.SmoothDamp (BobHeight, randomBob, ref refBob, BobSmoothing);
-
-		transform.localPosition = StartLoc + Vector3.up * BobHeight;
-
+		if (SceneControl.Play) {
+			BobHeight = Mathf.SmoothDamp (BobHeight, randomBob, ref refBob, BobSmoothing);
+			transform.localPosition = StartLoc + Vector3.up * BobHeight;
+		}
 
 	}
 }

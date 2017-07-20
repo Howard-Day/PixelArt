@@ -18,7 +18,7 @@ public class RandomRotator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-			if (PixelArt.frames % checkFrame == 0 && DemoSceneControl.Play) {
+			if (PixelArt.frames % checkFrame == 0 && SceneControl.Play) {
 				transform.localEulerAngles = StartRotation;
 			NewAxis = (gameObject.transform.right*RotationAxis.x)+(gameObject.transform.up*RotationAxis.y)+(gameObject.transform.forward*RotationAxis.z);
 				

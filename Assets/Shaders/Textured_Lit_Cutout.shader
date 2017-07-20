@@ -1,4 +1,6 @@
-﻿Shader "Pixel Art/Lit Textured Cutout" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Pixel Art/Lit Textured Cutout" {
 
     Properties {
         _Color ("Main Color", Color) = (1,1,1,1)
@@ -7,7 +9,7 @@
         _Dither ("Dithering amount", float) = .5
     }
     SubShader {
-        Tags {"Queue" = "Opaque" "RenderType" = "TransparentCutout"}
+        Tags {"Queue" = "Geometry" "RenderType" = "TransparentCutout"}
         Cull Off
         ZWrite On
         Pass{
@@ -19,7 +21,7 @@
             	#pragma multi_compile DITHER_ON DITHER_OFF 
 				#pragma glsl_no_auto_normalization 
                 #pragma fragmentoption ARB_precision_hint_fastest    
-                #pragma alphatest:.5          
+                //#pragma alphatest:.5          
                 #include "UnityCG.cginc"
                 #include "AutoLight.cginc"
                 #include "Lighting.cginc"
@@ -51,7 +53,7 @@
  
                 v2f vert(a2v  v){
                     v2f o;
-                    o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+                    o.pos = UnityObjectToClipPos(v.vertex);
                     fixed4 ObjDepth = mul(UNITY_MATRIX_IT_MV, v.vertex);
 			        // Snapping params
 					float hpcX = _ScreenParams.x * _PixelSnap;

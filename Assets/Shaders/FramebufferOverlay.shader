@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
      //Somehow achieves an effect similar to this:
      //#define BlendOverlayf(base, blend)     (base < 0.5 ? (2.0 * base * blend) : (1.0 - 2.0 * (1.0 - base) * (1.0 - blend)))
      
@@ -42,7 +44,7 @@
                  v2f_vct vert_vct(vin_vct v)
                  {
                      v2f_vct o;
-                     o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+                     o.vertex = UnityObjectToClipPos(v.vertex);
                      o.color = v.color;
                      o.texcoord = v.texcoord;
                      return o;

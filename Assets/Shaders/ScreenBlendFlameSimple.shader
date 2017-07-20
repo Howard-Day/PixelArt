@@ -1,4 +1,6 @@
-﻿
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+
 Shader "Pixel Art/MultiTex_FlameSimple" {
 Properties {
    _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
@@ -48,7 +50,7 @@ SubShader {
        v2f vert (appdata_t v)
        {
          v2f o;
-         o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+         o.vertex = UnityObjectToClipPos(v.vertex);
          o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
          o.screenPos = ComputeScreenPos(o.vertex);
          o.color = v.color;
@@ -70,7 +72,7 @@ SubShader {
          col.a = saturate((col.r-i.color.a/4)*2)
          		*saturate(((col.b)*4-(1-i.color.a*.75))*2);
          fixed edgeMask = col.r;
-         col.a = saturate((col.a+dither*.3-(_AlphaClipOffset*.25))*2038*2048);
+         col.a = saturate((col.a+dither*.3-(_AlphaClipOffset*.25))*264);
          col.rgb = ((1-saturate((col.r)))+(col.b)*(4+dither*4)*2*(i.color.a))*saturate(col.b*4+(1-i.color.a)+(.2+(1-col.b)-1));
          col.rgb = (col.rgb+.75)*1.25*i.color;
 		 return col;

@@ -1,4 +1,6 @@
-﻿Shader "Pixel Art/Indexing" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Pixel Art/Indexing" {
  Properties {
         _MainTex ("Texture", 2D) = "white" {}
         _LUTTex ("Texture", 2D) = "white" {} 
@@ -33,7 +35,7 @@
  
                 v2f vert(a2v  i){
                     v2f o; 
-                    o.pos = mul(UNITY_MATRIX_MVP, i.vertex);
+                    o.pos = UnityObjectToClipPos(i.vertex);
                     o.uv = TRANSFORM_TEX (i.texcoord, _MainTex);
                     return o;
                 } 

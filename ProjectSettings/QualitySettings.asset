@@ -9,14 +9,15 @@ QualitySettings:
   - serializedVersion: 2
     name: Fantastic
     pixelLightCount: 1
-    shadows: 1
+    shadows: 2
     shadowResolution: 3
     shadowProjection: 0
     shadowCascades: 1
-    shadowDistance: 450
+    shadowDistance: 500
     shadowNearPlaneOffset: 1
-    shadowCascade2Split: 0.7392528
-    shadowCascade4Split: {x: 0.08079045, y: 0.14787863, z: 0.18160248}
+    shadowCascade2Split: 0.090021566
+    shadowCascade4Split: {x: 0.1, y: 0.275, z: 0.5}
+    shadowmaskMode: 0
     blendWeights: 1
     textureQuality: 0
     anisotropicTextures: 1
@@ -31,14 +32,9 @@ QualitySettings:
     particleRaycastBudget: 4096
     asyncUploadTimeSlice: 2
     asyncUploadBufferSize: 4
+    resolutionScalingFixedDPIFactor: 1
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
     Android: 0
-    Samsung TV: 0
     Standalone: 0
-    Tizen: 0
-    WP8: 0
-    Web: 0
     WebGL: 0
-    Windows Store Apps: 0
-    iPhone: 0

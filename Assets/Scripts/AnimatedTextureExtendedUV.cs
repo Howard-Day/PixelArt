@@ -21,7 +21,7 @@ public class AnimatedTextureExtendedUV : MonoBehaviour
 		renderer = GetComponent<Renderer>();
 	}
 	//Update
-	void Update () { SetSpriteAnimation(colCount,rowCount,rowNumber,colNumber,totalCells,fps);  }
+	void Update () { if(SceneControl.Play){ SetSpriteAnimation(colCount,rowCount,rowNumber,colNumber,totalCells,fps); }  }
 
 
 	//SetSpriteAnimation

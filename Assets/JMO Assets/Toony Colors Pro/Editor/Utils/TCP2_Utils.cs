@@ -226,7 +226,7 @@ public static class TCP2_Utils
 			newMesh.uv3 = originalMesh.uv3;
 			newMesh.uv4 = originalMesh.uv4;
 #else
-			newMesh.uv1 = originalMesh.uv1;
+			newMesh.uv2 = originalMesh.uv2;
 #endif
 			newMesh.colors32 = originalMesh.colors32;
 			newMesh.triangles = originalMesh.triangles;

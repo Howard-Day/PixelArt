@@ -1,4 +1,6 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
 Shader "Pixel Art/ObjDepth" {
     Properties {
@@ -38,7 +40,7 @@ Shader "Pixel Art/ObjDepth" {
  
                 v2f vert(a2v  i){
                     v2f o; 
-                    o.pos = mul(UNITY_MATRIX_MVP, i.vertex);
+                    o.pos = UnityObjectToClipPos(i.vertex);
                     fixed4 ObjDepth = mul(UNITY_MATRIX_IT_MV, i.vertex);
                     o.color = ObjDepth/2;
                     o.worldPos = mul(unity_ObjectToWorld, i.vertex);

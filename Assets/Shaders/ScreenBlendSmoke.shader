@@ -1,4 +1,6 @@
-﻿
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+
 Shader "Pixel Art/MultiTex_Smoke" {
 Properties {
    _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
@@ -27,18 +29,22 @@ SubShader {
        #pragma glsl_no_auto_normalization 
        #pragma fragmentoption ARB_precision_hint_fastest   
        #include "UnityCG.cginc"
- 
+       #include "AutoLight.cginc"
+       #include "Lighting.cginc"
        struct appdata_t {
          float4 vertex : POSITION;
          float2 texcoord : TEXCOORD0;
          fixed4 color: COLOR;
+         fixed4 normal: NORMAL;
        };
  
        struct v2f {
          float4 vertex : SV_POSITION;
          half2 texcoord : TEXCOORD0;
          fixed4 screenPos: TEXCOORD1;
+         fixed3 lightDir : TEXCOORD2;
          fixed4 color: COLOR;
+         fixed4 normal: NORMAL;
        };
  
        sampler2D _MainTex;
@@ -52,10 +58,12 @@ SubShader {
        v2f vert (appdata_t v)
        {
          v2f o;
-         o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+         o.vertex = UnityObjectToClipPos(v.vertex);
          o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
          o.screenPos = ComputeScreenPos(o.vertex);
          o.color = v.color;
+         o.normal = v.normal;
+         o.lightDir = ObjSpaceLightDir(v.vertex);
          return o;
        }
      
@@ -63,6 +71,7 @@ SubShader {
        {
 			fixed4 tex = tex2D(_MainTex, i.texcoord);
 			fixed dither = 0;
+			fixed NdotL = dot(i.normal, i.lightDir)*.8+.2;
 			#if DITHER_ON
 				dither = tex2D(_DitherTex,i.screenPos*_DitherScale).r;// _Color.rgb; 
 				dither -= .5;
@@ -78,11 +87,12 @@ SubShader {
 			//col.rgb = ((1-saturate((col.r)-i.color.a))+(col.b)*(1+(dither*_ColorDither)*6)*3*(i.color.a)-1)*saturate(col.b*4+(1-i.color.a)+(.2+(1-col.b)-1));
 			//col.rgb = lerp(i.color,(col.rgb+.75)*1.25*i.color,saturate(edgeMask*4-.5));
 			fixed colBlend = saturate((tex.r+dither*_ColorDither)*1000-500);
-			fixed colShade = saturate((tex.r+dither*_ColorDither)*1000-750);
-			fixed3 colTint = _Color.rgb*i.color.rgb*2; 
-			col.rgb = lerp(colTint-.05,colTint,colBlend);
-			col.rgb = lerp(col.rgb-.05,col.rgb,colShade)*(tex.r*.5+.5);
-			col.a = saturate((_Color.a*i.color.a*tex.g+(dither*_AlphaDither))*1000-100);
+			fixed colShade = saturate((tex.g+dither*_ColorDither)*1000-750);
+			fixed3 colTint = _Color.rgb*i.color.rgb; 
+			//col.rgb = lerp(colTint-.05,colTint,colBlend);
+			//col.rgb = lerp(colTint-.05,colTint.rgb,colShade);//*(tex.b*.5+.5);
+			col.rgb = (colTint+saturate(_LightColor0.rgb*((1-tex.r)+.5)*NdotL))+saturate(UNITY_LIGHTMODEL_AMBIENT*(((1-tex.b)/2+.5)))*((1-i.color.a)/4)+dither*colTint*_ColorDither;
+			col.a = saturate((_Color.a*i.color.a*lerp(tex.g,tex.b,i.color.a)+(dither*_AlphaDither))*50-5);
 
 			return col;
        }

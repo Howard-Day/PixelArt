@@ -48,7 +48,7 @@ public class AnimSpeed : MonoBehaviour {
 			FindActiveClip ();
 
 		if (StepAnimation) {
-			if(DemoSceneControl.Play){
+			if(SceneControl.Play){
 				if(PixelArt.framecount % Mathf.Round(PixelArt.FPS/FrameRate) == 0)
 				{
 					StepAnim (FrameRate,currentAnimLength);
@@ -68,7 +68,7 @@ public class AnimSpeed : MonoBehaviour {
 		}
 
 		if (!StepAnimation) {
-			if (DemoSceneControl.Play)
+			if (SceneControl.Play)
 				anim [currentAnim].normalizedSpeed = Speed;
 			else
 				anim [currentAnim].normalizedSpeed = 0;

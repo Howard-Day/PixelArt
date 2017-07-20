@@ -7,10 +7,18 @@ public class CloneParticleSeed : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		CloneSystem = GetComponent<ParticleSystem> ();
+		var main = CloneSystem.main;
+		main.playOnAwake = false;
+		CloneSystem.Stop ();
+		if (!CloneSystem.isPlaying) {
+			CloneSystem.randomSeed = ParticleSystemToClone.randomSeed;	
+		}
+		CloneSystem.Play ();
 	}
-	
-	// Update is called once per frame
 	void Update () {
-		CloneSystem.randomSeed = ParticleSystemToClone.randomSeed;
+		
 	}
+
+	
+
 }

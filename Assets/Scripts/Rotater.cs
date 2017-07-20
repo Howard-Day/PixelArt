@@ -40,7 +40,7 @@ public class Rotater : MonoBehaviour {
 				transform.RotateAround (transform.position, RotateAxis, Speed);
 			}
 		}
-		if (DemoSceneControl.Play)
+		if (SceneControl.Play)
 			Rotate = true;
 		else
 			Rotate = false;

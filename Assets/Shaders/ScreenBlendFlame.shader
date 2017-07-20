@@ -1,4 +1,6 @@
-﻿
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+
 Shader "Pixel Art/MultiTex_Flame" {
 Properties {
    _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
@@ -52,7 +54,7 @@ SubShader {
        v2f vert (appdata_t v)
        {
          v2f o;
-         o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+         o.vertex = UnityObjectToClipPos(v.vertex);
          o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
          o.screenPos = ComputeScreenPos(o.vertex);
          o.color = v.color;
@@ -71,11 +73,11 @@ SubShader {
 			col.r = lerp(col.r,col.g,1-i.color.a);
 			fixed blendMask = col.r;
 			col.a = saturate((col.r-i.color.a/4)*2)
-					*saturate(((1-(col.g+(.75-col.b*2))/2)-(1-i.color.a*.75))*2);
-			fixed edgeMask = col.r;
-			col.a = saturate((col.a+dither*_AlphaDither-(_AlphaClipOffset*.25))*3048*2048);//(128*saturate((1-i.color.a)*2)));
-			col.rgb = ((1-saturate((col.r)-i.color.a))+(col.b)*(1+(dither*_ColorDither)*6)*3*(i.color.a)-1)*saturate(col.b*4+(1-i.color.a)+(.2+(1-col.b)-1));
-			col.rgb = lerp(i.color,(col.rgb+.75)*1.25*i.color,saturate(edgeMask*4-.5));
+					*saturate(((1-(col.g+((1+12*dither*_AlphaDither)-col.b*4))/2)-((1+saturate((1-i.color.a)*1.5-1))-i.color.a))*2);
+			fixed edgeMask = (col.r+(1-col.g))/3;
+			col.a = saturate((col.a+dither*_AlphaDither-(_AlphaClipOffset))*1600);//(128*saturate((1-i.color.a)*2)));
+			col.rgb = ((1-saturate((col.r)-i.color.a))+(col.b)*(1+(dither*_ColorDither)*4)*3*(i.color.a)-1)*saturate(col.b*4+(1-i.color.a)+(.2+(1-col.b)-1));
+			col.rgb = lerp(i.color/2,(col.rgb+2)*i.color,saturate(edgeMask*5-1.25));
 
 			return col;
        }

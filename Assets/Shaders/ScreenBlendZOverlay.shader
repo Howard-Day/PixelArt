@@ -1,4 +1,6 @@
-﻿
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+
 Shader "Pixel Art/ScreenBlendZOverlay" {
 Properties {
    _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
@@ -12,12 +14,12 @@ SubShader {
  
 	//Blend One Zero, Zero One
    Blend OneMinusDstColor One, One Zero
-   BlendOp Add
+   //BlendOp Min//ReverseSubtract
    //Blend SrcAlpha One, One Zero // linear dodge
    ZWrite off
    //AlphaTest Greater .01
    ZTest Greater
-   Offset 1000,1000
+   Offset 2000,2000
    Cull Off
    Pass {
      CGPROGRAM
@@ -51,7 +53,7 @@ SubShader {
        v2f vert (appdata_t v)
        {
          v2f o;
-         o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+         o.vertex = UnityObjectToClipPos(v.vertex);
          o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
          o.screenPos = ComputeScreenPos(o.vertex);
          o.color = v.color*2;
@@ -61,6 +63,7 @@ SubShader {
        fixed4 frag (v2f i) : COLOR
        {
          fixed4 col = _Color*tex2D(_MainTex, i.texcoord)*i.color;
+
  		 fixed dither = 0;
 		 #if DITHER_ON
 			dither = tex2D(_DitherTex,i.screenPos*_DitherScale).r;// _Color.rgb; 

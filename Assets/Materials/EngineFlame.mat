@@ -10,31 +10,23 @@ Material:
   m_Shader: {fileID: 4800000, guid: 0ed1b78b67016b44487beab2757fc8f9, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
+  disabledShaderPasses: []
   m_SavedProperties:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TexEnvs:
-    - first:
-        name: _MainTex
-      second:
+    - _MainTex:
         m_Texture: {fileID: 2800000, guid: 993d295c8caf882418fc9350d051196c, type: 3}
         m_Scale: {x: 0.5, y: 0.5}
-        m_Offset: {x: 0.5, y: 0.5}
+        m_Offset: {x: 0, y: 0.5}
     m_Floats:
-    - first:
-        name: _AlphaClipOffset
-      second: 0.5
-    - first:
-        name: _AlphaDither
-      second: 4
-    - first:
-        name: _ColorDither
-      second: 1.5
-    - first:
-        name: _PixelSnap
-      second: 122
+    - _AlphaClipOffset: 0.5
+    - _AlphaDither: 2
+    - _ColorDither: 1
+    - _Intensity: 6
+    - _PixelSnap: 1
     m_Colors:
-    - first:
-        name: _Color
-      second: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
