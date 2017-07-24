@@ -90,12 +90,12 @@ Shader "Pixel Art/Lit Textured Dithered" {
                     // Get dot product to use as ramp UV coords.
                     // Transformed from -1 to 1 range to 0 - 1 range so it can use the full dimensions of the ramp texture.
                     fixed NdotL = dot(i.normal, i.lightDir);
-                    fixed shadow = saturate(SHADOW_ATTENUATION(i)*1200);
+                    fixed shadow = saturate(SHADOW_ATTENUATION(i));
                     fixed dither = 0;
                     #if DITHER_ON
 	                    dither = tex2D(_DitherTex,i.screenPos*_DitherScale).r;// _Color.rgb; 
 	                    dither -= .5;
-	                    dither *= i.color.g*.05*_Dither;
+	                    dither *= .025*_Dither;
 	                    //dither *= .5;
  					#endif
  					// Put the vector maths in brackets so it doesn't try and do scalar-vector maths where it doesn't need to.
@@ -104,10 +104,10 @@ Shader "Pixel Art/Lit Textured Dithered" {
                     //fixed shade = saturate(saturate((NdotL+dither*8)*2500-1250)*.15+.85+i.color.b*2);
                     //fixed2 newCoords = fixed2(lerp(amb,max(NdotL,amb),shadow+dither*4)+dither-(saturate(1-i.screenPos.w-.5)*(1-_DistanceDarken)),i.uv.y);
                     fixed3 colors = tex2D(_MainTex, i.uv).rgb;//*(1+dither);
-                    fixed shade = min(saturate(NdotL*100-65+dither*100)+.35,saturate(NdotL*100-35+dither*100)) ;
+                    fixed shade = min(saturate(NdotL*100-60+dither*100)+.45,saturate(NdotL*100-35+dither*250)) ;
                    
-                    c.rgb = colors * ((c.rgb*i.color.r+dither*2)+_LightColor0.rgb*2*min(shadow,shade));//,saturate(NdotL*100)+.375) );
-                    c.rgb += saturate((1-i.color.g)*saturate(i.color.r-.5)*(_LightColor0.rgb*2)*colors);
+                    c.rgb = colors * ((c.rgb*i.color.r+dither/2)+_LightColor0.rgb*2*min(shadow,shade));//,saturate(NdotL*100)+.375) );
+                    c.rgb += saturate((1-saturate((i.color.g)*(dither*15+2)))*saturate(i.color.r-.75)*(_LightColor0.rgb)*colors*4);
                     //c.rgb *= shade;
                     c.rgb = lerp(c.rgb, colors.rgb*_Glow, i.color.b);
                     c.rgb *= _Color.rgb;

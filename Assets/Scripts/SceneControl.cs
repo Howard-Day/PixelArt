@@ -89,8 +89,12 @@ public class SceneControl : MonoBehaviour {
 	void TODControl () {
 		Quaternion SunRot = Sun.transform.localRotation;
 		Vector3 SunOrbitAnim = new Vector3 (SunOrbit.Evaluate(TOD)*SunOrbitAmount, Mathf.Lerp(SunRotationStartEnd.x,SunRotationStartEnd.y,TOD), 0);
-		SunRot.eulerAngles = Vector3.Lerp(SunOrbitAnim,MoonRotation, MoonBlend.Evaluate(TOD));
-		Sun.transform.localRotation = SunRot; 
+		SunRot.eulerAngles = SunOrbitAnim;
+		Quaternion MoonRot = new Quaternion();// Quaternion.eulerAngles(MoonRotation);
+		MoonRot.eulerAngles = MoonRotation;
+
+		Sun.transform.localRotation = Quaternion.LerpUnclamped(SunRot,MoonRot, MoonBlend.Evaluate(TOD)); 
+
 		SceneLight.color = SunTODColor.Evaluate (TOD);
 		RenderSettings.ambientLight = AmbTODColor.Evaluate(TOD);
 		SceneCamera.backgroundColor = SkyTODColor.Evaluate(TOD);
@@ -104,7 +108,7 @@ public class SceneControl : MonoBehaviour {
 		SceneCamera.orthographicSize = Mathf.SmoothStep(SceneCamera.orthographicSize,Mathf.Lerp (NearFarZoom.x, NearFarZoom.y,Zoom),.3f);
 		OutlineControl.edgesOnly = Mathf.Lerp (NearFarOutline.x, NearFarOutline.y, Zoom);
 		OutlineControl.edgeExp = Mathf.Lerp (NearFarDetect.x, NearFarDetect.y, Zoom);
-		OutlineControl.edgesColor = AmbTODColor.Evaluate (TOD)*((1-Zoom)+1);
+		OutlineControl.edgesColor = AmbTODColor.Evaluate (TOD)*((1-Zoom));
 	}
 
 	// Update is called once per frame

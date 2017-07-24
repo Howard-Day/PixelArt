@@ -58,7 +58,7 @@ Material:
     - _AlphaClipOffset: 0.2
     - _AlphaDither: 2
     - _BumpScale: 1
-    - _ColorDither: 1
+    - _ColorDither: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0

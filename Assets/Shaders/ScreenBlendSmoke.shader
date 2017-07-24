@@ -71,7 +71,7 @@ SubShader {
        {
 			fixed4 tex = tex2D(_MainTex, i.texcoord);
 			fixed dither = 0;
-			fixed NdotL = dot(i.normal, i.lightDir)*.8+.2;
+			fixed NdotL = dot(i.normal, i.lightDir)*.9+.1;
 			#if DITHER_ON
 				dither = tex2D(_DitherTex,i.screenPos*_DitherScale).r;// _Color.rgb; 
 				dither -= .5;

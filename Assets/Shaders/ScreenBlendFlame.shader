@@ -73,11 +73,12 @@ SubShader {
 			col.r = lerp(col.r,col.g,1-i.color.a);
 			fixed blendMask = col.r;
 			col.a = saturate((col.r-i.color.a/4)*2)
-					*saturate(((1-(col.g+((1+12*dither*_AlphaDither)-col.b*4))/2)-((1+saturate((1-i.color.a)*1.5-1))-i.color.a))*2);
-			fixed edgeMask = (col.r+(1-col.g))/3;
-			col.a = saturate((col.a+dither*_AlphaDither-(_AlphaClipOffset))*1600);//(128*saturate((1-i.color.a)*2)));
+					*saturate(((1-(col.g+((1+12*dither*_AlphaDither)-col.b*4))/2)-((1+saturate((1-i.color.a)*1.5-.5))-i.color.a))*2);
+			fixed edgeMask = (col.r+(col.g)/2+.5)/4;
+			edgeMask += saturate((col.b)*3-2)*(1-i.color.a);
+			col.a = saturate((col.a+dither*_AlphaDither-(_AlphaClipOffset))*(2+256*(1-i.color.a)));//(128*saturate((1-i.color.a)*2)));
 			col.rgb = ((1-saturate((col.r)-i.color.a))+(col.b)*(1+(dither*_ColorDither)*4)*3*(i.color.a)-1)*saturate(col.b*4+(1-i.color.a)+(.2+(1-col.b)-1));
-			col.rgb = lerp(i.color/2,(col.rgb+2)*i.color,saturate(edgeMask*5-1.25));
+			col.rgb = lerp(i.color/2*(i.color.a+1),(col.rgb+2)*i.color,saturate(edgeMask*5-1.25));
 
 			return col;
        }
