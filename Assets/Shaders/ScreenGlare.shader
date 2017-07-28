@@ -12,9 +12,9 @@ SubShader {
    Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
    LOD 100
  
-	//Blend One Zero, Zero One
-   Blend OneMinusDstColor One, One Zero
-   //BlendOp Add
+   //Blend One Zero, Zero One
+   //Blend OneMinusDstColor One, One Zero
+   BlendOp max
    //Blend SrcAlpha One, One Zero // linear dodge
    ZWrite off
    //AlphaTest Greater .01

@@ -4,6 +4,7 @@ using System.Collections;
 public class SceneControl : MonoBehaviour {
 	[Header("Camera Control")]
 	public Camera SceneCamera;
+	public GameObject SceneUI;
 
 	[Range(0,1)]
 	public float Zoom;
@@ -78,37 +79,49 @@ public class SceneControl : MonoBehaviour {
 
 
 	public static bool Play = true;
-
+	float InitialOrthoSize = 0;
 	GameObject Sun;
+	float SmoothTOD;
 	// Use this for initialization
 	void OnEnable () {
+		InitialOrthoSize = SceneCamera.orthographicSize;
 		Shader.DisableKeyword ("DITHER_ON");
 		Sun = SceneLight.transform.gameObject;
 	}
 
 	void TODControl () {
+		SmoothTOD = Mathf.SmoothStep (SmoothTOD, TOD, .125f);
 		Quaternion SunRot = Sun.transform.localRotation;
-		Vector3 SunOrbitAnim = new Vector3 (SunOrbit.Evaluate(TOD)*SunOrbitAmount, Mathf.Lerp(SunRotationStartEnd.x,SunRotationStartEnd.y,TOD), 0);
+		Vector3 SunOrbitAnim = new Vector3 (SunOrbit.Evaluate(SmoothTOD)*SunOrbitAmount, Mathf.Lerp(SunRotationStartEnd.x,SunRotationStartEnd.y,SmoothTOD), 0);
 		SunRot.eulerAngles = SunOrbitAnim;
 		Quaternion MoonRot = new Quaternion();// Quaternion.eulerAngles(MoonRotation);
 		MoonRot.eulerAngles = MoonRotation;
 
-		Sun.transform.localRotation = Quaternion.LerpUnclamped(SunRot,MoonRot, MoonBlend.Evaluate(TOD)); 
+		Sun.transform.localRotation = Quaternion.LerpUnclamped(SunRot,MoonRot, MoonBlend.Evaluate(SmoothTOD)); 
 
-		SceneLight.color = SunTODColor.Evaluate (TOD);
-		RenderSettings.ambientLight = AmbTODColor.Evaluate(TOD);
-		SceneCamera.backgroundColor = SkyTODColor.Evaluate(TOD);
+		SceneLight.color = SunTODColor.Evaluate (SmoothTOD);
+		RenderSettings.ambientLight = AmbTODColor.Evaluate(SmoothTOD);
+		SceneCamera.backgroundColor = SkyTODColor.Evaluate(SmoothTOD);
 		if (AutoAnimate && Play) {
 			TOD += Time.smoothDeltaTime / 120;
-			if (TOD > 1)
+			if (SmoothTOD > 1) {
+				SmoothTOD = 0;
 				TOD = 0;
+			}
 		}
 	}
+	float UIScale;
+
 	void CameraControl() {
-		SceneCamera.orthographicSize = Mathf.SmoothStep(SceneCamera.orthographicSize,Mathf.Lerp (NearFarZoom.x, NearFarZoom.y,Zoom),.3f);
+		if (InitialOrthoSize == 0) {
+			InitialOrthoSize = SceneCamera.orthographicSize;
+		}
+		SceneCamera.orthographicSize = Mathf.SmoothStep(SceneCamera.orthographicSize,Mathf.Lerp (NearFarZoom.x, NearFarZoom.y,Zoom),.2f);
+		UIScale = SceneCamera.orthographicSize / InitialOrthoSize;	
 		OutlineControl.edgesOnly = Mathf.Lerp (NearFarOutline.x, NearFarOutline.y, Zoom);
 		OutlineControl.edgeExp = Mathf.Lerp (NearFarDetect.x, NearFarDetect.y, Zoom);
 		OutlineControl.edgesColor = AmbTODColor.Evaluate (TOD)*((1-Zoom));
+		SceneUI.transform.localScale = UIScale*Vector3.one;
 	}
 
 	// Update is called once per frame
@@ -135,7 +148,7 @@ public class SceneControl : MonoBehaviour {
 				PixelControl.pixelScale = 3;
 			else
 				PixelControl.pixelScale = 3;
-			if (Screen.height <= 600)
+			if (Screen.height < 600)
 				PixelControl.pixelScale = 2;
 		} 
 		else {
@@ -143,7 +156,7 @@ public class SceneControl : MonoBehaviour {
 				PixelControl.pixelScale = 2;
 			else
 				PixelControl.pixelScale = 2;
-			if (Screen.height <= 600)
+			if (Screen.height < 600)
 				PixelControl.pixelScale = 1;
 		}
 		if (PixelLockToggle.Active) {

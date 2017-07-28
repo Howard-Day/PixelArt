@@ -59,12 +59,12 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DistanceDarken: 0
-    - _Dither: 2
+    - _Dither: 0.5
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Glow: 5
+    - _Glow: 6
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1

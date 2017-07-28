@@ -71,27 +71,19 @@ SubShader {
        {
 			fixed4 tex = tex2D(_MainTex, i.texcoord);
 			fixed dither = 0;
-			fixed NdotL = dot(i.normal, i.lightDir)*.9+.1;
+			fixed NdotL = dot(i.normal, i.lightDir)*.75+.25;
 			#if DITHER_ON
 				dither = tex2D(_DitherTex,i.screenPos*_DitherScale).r;// _Color.rgb; 
 				dither -= .5;
 				dither *= .05;
 				//dither *= tex.b+.5;
 			#endif         
-			//col.r = lerp(col.r,col.g,1-i.color.a);
-			//fixed blendMask = col.r;
-			//col.a = saturate((col.r-i.color.a/4)*2)
-			//		*saturate(((1-(col.g+(.75-col.b*2))/2)-(1-i.color.a*.75))*2);
-			//fixed edgeMask = col.r;
-			fixed4 col; //saturate((col.a+dither*_AlphaDither-(_AlphaClipOffset*.25))*3048*2048);//(128*saturate((1-i.color.a)*2)));
-			//col.rgb = ((1-saturate((col.r)-i.color.a))+(col.b)*(1+(dither*_ColorDither)*6)*3*(i.color.a)-1)*saturate(col.b*4+(1-i.color.a)+(.2+(1-col.b)-1));
-			//col.rgb = lerp(i.color,(col.rgb+.75)*1.25*i.color,saturate(edgeMask*4-.5));
+
+			fixed4 col;		
 			fixed colBlend = saturate((tex.r+dither*_ColorDither)*1000-500);
 			fixed colShade = saturate((tex.g+dither*_ColorDither)*1000-750);
 			fixed3 colTint = _Color.rgb*i.color.rgb; 
-			//col.rgb = lerp(colTint-.05,colTint,colBlend);
-			//col.rgb = lerp(colTint-.05,colTint.rgb,colShade);//*(tex.b*.5+.5);
-			col.rgb = (colTint+saturate(_LightColor0.rgb*((1-tex.r)+.5)*NdotL))+saturate(UNITY_LIGHTMODEL_AMBIENT*(((1-tex.b)/2+.5)))*((1-i.color.a)/4)+dither*colTint*_ColorDither;
+			col.rgb = (colTint+saturate(_LightColor0.rgb*((tex.b*.5+.5)+dither*2)*NdotL))+saturate(UNITY_LIGHTMODEL_AMBIENT*(((1-tex.b)/2+.5)))*((1-i.color.a)/4)+dither*colTint*_ColorDither;
 			col.a = saturate((_Color.a*i.color.a*lerp(tex.g,tex.b,i.color.a)+(dither*_AlphaDither))*50-5);
 
 			return col;
