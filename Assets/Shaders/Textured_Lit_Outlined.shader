@@ -101,7 +101,7 @@
                     //fixed2 newCoords = fixed2(lerp(amb,max(NdotL,amb),shadow+dither*4)+dither-(saturate(1-i.screenPos.w-.5)*(1-_DistanceDarken)),i.uv.y);
                     fixed shade = min(saturate(NdotL*100-60+dither*300)+.45,saturate(NdotL*100-50+dither*50)) ;
                    
-                    c.rgb = colors * ((c.rgb*i.color.r-dither/2)+_LightColor0.rgb*2*min(shadow,shade));//,saturate(NdotL*100)+.375) );
+                    c.rgb = colors * ((c.rgb*(i.color.r*.75+.25)-dither/2)+_LightColor0.rgb*2*min(shadow,shade));//,saturate(NdotL*100)+.375) );
                     c.rgb += saturate((1-saturate((i.color.g)*(dither*25+1)))*saturate(i.color.r-.75)*UNITY_LIGHTMODEL_AMBIENT*3);
                     //c.rgb *= shade;
                     c.rgb = lerp(c.rgb, colors.rgb*_Glow, i.color.b);
@@ -113,6 +113,53 @@
                 }
             ENDCG
         }
+        // using macros from UnityCG.cginc
+        Pass
+        {
+            Tags {"LightMode"="ShadowCaster"}
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_shadowcaster
+            #include "UnityCG.cginc"
+            fixed _PixelSnap;
+            struct v2f { 
+                V2F_SHADOW_CASTER;
+            };
+
+            v2f vert(appdata_base v)
+            {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+			        // Snapping params
+					float hpcX = _ScreenParams.x * _PixelSnap;
+					float hpcY = _ScreenParams.y * _PixelSnap;
+				#ifdef UNITY_HALF_TEXEL_OFFSET
+					float hpcOX = -0.5;
+					float hpcOY = 0.5;
+				#else
+					float hpcOX = 0;
+					float hpcOY = 0;
+				#endif	
+					// Snap
+				TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
+
+				float posi = floor((o.pos.x / o.pos.w) * hpcX + 0.5f) + hpcOX;
+				o.pos.x = posi / hpcX * o.pos.w;
+
+				posi = floor((o.pos.y / o.pos.w) * hpcY + 0.5f) + hpcOY;
+				o.pos.y = posi / hpcY * o.pos.w;
+
+                return o;
+            }
+
+            float4 frag(v2f i) : SV_Target
+            {
+                SHADOW_CASTER_FRAGMENT(i)
+            }
+            ENDCG
+        }
    	}
-    Fallback "VertexLit"
+   // Fallback "VertexLit"
 }
