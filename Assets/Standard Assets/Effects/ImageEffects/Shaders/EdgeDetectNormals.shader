@@ -240,7 +240,8 @@ Shader "Hidden/EdgeDetect" {
 
 		Sobel = saturate((1.0-pow(saturate(Sobel), _Exponent))*1000-950);
 		float4 colorSobel = lerp(_Color,float4(1,1,1,1),Sobel);
-		return lerp(colorSobel, _BgColor, 1-_BgFade) * tex2D(_MainTex, UnityStereoScreenSpaceUVAdjust(i.uv[0].xy, _MainTex_ST));
+		float4 col = tex2D(_MainTex, UnityStereoScreenSpaceUVAdjust(i.uv[0].xy, _MainTex_ST));
+		return lerp(colorSobel, _BgColor , saturate(((col.g+col.r+col.b)*.666+(1-_BgFade))-2) ) * col ;
 	}
 
 	half4 fragRobert(v2f i) : SV_Target {				

@@ -1,20 +1,94 @@
 fileFormatVersion: 2
 guid: bc72f9580a5eb0248b922de4e6e96268
-timeCreated: 1463122701
-licenseType: Pro
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Camera001
+    100004: Camera001.Target
+    100006: Camera002
+    100008: Camera002.Target
+    100010: Camera003
+    100012: Camera003.Target
+    100014: Camera004
+    100016: Camera004.Target
+    100018: Direct001
+    100020: Direct001.Target
+    100022: FDirect002
+    100024: Omni011
+    100026: Omni012
+    100028: Omni013
+    100030: Omni014
+    100032: Omni015
+    100034: Omni016
+    100036: Omni017
+    100038: Omni018
+    100040: Omni019
+    100042: Omni020
+    100044: Omni021
+    100046: Omni022
+    100048: Sky001
+    100050: Sky003
+    100052: SkyFloater_01
+    100054: SkyFloater_Junker
+    100056: SkyFloater_Junker001
+    100058: SkyFloater_Junker002
     400000: //RootNode
+    400002: Camera001
+    400004: Camera001.Target
+    400006: Camera002
+    400008: Camera002.Target
+    400010: Camera003
+    400012: Camera003.Target
+    400014: Camera004
+    400016: Camera004.Target
+    400018: Direct001
+    400020: Direct001.Target
+    400022: FDirect002
+    400024: Omni011
+    400026: Omni012
+    400028: Omni013
+    400030: Omni014
+    400032: Omni015
+    400034: Omni016
+    400036: Omni017
+    400038: Omni018
+    400040: Omni019
+    400042: Omni020
+    400044: Omni021
+    400046: Omni022
+    400048: Sky001
+    400050: Sky003
+    400052: SkyFloater_01
+    400054: SkyFloater_Junker
+    400056: SkyFloater_Junker001
+    400058: SkyFloater_Junker002
     2300000: //RootNode
+    2300002: SkyFloater_01
+    2300004: SkyFloater_Junker
+    2300006: SkyFloater_Junker001
+    2300008: SkyFloater_Junker002
     3300000: //RootNode
+    3300002: SkyFloater_01
+    3300004: SkyFloater_Junker
+    3300006: SkyFloater_Junker001
+    3300008: SkyFloater_Junker002
     4300000: SkyFloater_Junker
     4300002: SkyFloater_Junker001
+    4300004: SkyFloater_01
+    4300006: SkyFloater_Junker002
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 08 - Default2
+    second: {fileID: 2100000, guid: 12f833c4235b91b48a19a002ea9cf706, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -27,6 +101,8 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -51,15 +127,19 @@ ModelImporter:
     optimizeMeshForGPU: 0
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
-    normalSmoothAngle: 0
-    normalImportMode: 0
-    tangentImportMode: 0
+    normalSmoothAngle: 180
+    normalImportMode: 1
+    tangentImportMode: 3
     normalCalculationMode: 1
   importAnimation: 1
   copyAvatar: 0

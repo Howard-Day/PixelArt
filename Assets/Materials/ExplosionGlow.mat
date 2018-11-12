@@ -59,7 +59,7 @@ Material:
     - _ColorDither: 642222
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _Dither: 3
+    - _Dither: 2
     - _DstBlend: 0
     - _Glossiness: 0.5
     - _InvFade: 1

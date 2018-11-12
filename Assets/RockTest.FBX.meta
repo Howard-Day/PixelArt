@@ -374,10 +374,10 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 35
+    normalSmoothAngle: 25
     normalImportMode: 1
     tangentImportMode: 3
-    normalCalculationMode: 2
+    normalCalculationMode: 1
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

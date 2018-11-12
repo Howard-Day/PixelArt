@@ -18,7 +18,8 @@ SubShader {
    //Blend SrcAlpha One, One Zero // linear dodge
    ZWrite off
    //AlphaTest Greater .01
-   ZTest Always
+  ZTest Always
+ // offset -10,-10
    Cull Off
    Pass {
      CGPROGRAM

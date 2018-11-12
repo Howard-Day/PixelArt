@@ -2,8 +2,11 @@
     Properties {
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1,1,1,1)
+        _LightingSteps ("Lighting Steps", float) = 10
+        _AOSteps("AO Steps", float) = 2
         _Dither ("Dithering amount", float) = .5
         _Glow ("Glow Intensity", float) = 1
+        _GlowSteps ("Glow Steps", float) = 10
     }
     SubShader { 
         Pass{
@@ -18,14 +21,28 @@
                 #include "UnityCG.cginc"
                 #include "AutoLight.cginc"
                 #include "Lighting.cginc"
+
+                fixed4 RetroAA(sampler2D tex, float2 uv, float4 texelSize){
+					float2 texelCoord = uv*texelSize.zw;
+					float2 hfw = .5*fwidth(texelCoord);
+					float2 fl = floor(texelCoord - 0.5) + 0.5;
+					float2 uvaa = (fl + smoothstep(0.5 - hfw, 0.5 + hfw, texelCoord - fl))*texelSize.xy;
+
+					return tex2D(tex, uvaa);
+				}
+
                 uniform sampler2D _MainTex;
+                float4 _MainTex_TexelSize;
                 uniform fixed4 _MainTex_ST;
                 uniform fixed4 _Color;          // Made this a fixed4, you won't get greater precision using fixed here.
                 uniform sampler2D _DitherTex;
+                fixed _LightingSteps;
+                fixed _AOSteps;
                 fixed _PixelSnap;
                 fixed4 _DitherScale;
                 fixed _Dither;
                 fixed _Glow;
+                fixed _GlowSteps;
                 struct a2v  {
                     float4 vertex : POSITION;
                     fixed3 normal : NORMAL;
@@ -79,7 +96,8 @@
                 // Made this a fixed4, you won't gain precision with a fixed.
                 fixed4 frag(v2f i, out float depth : DEPTH) : COLOR
                 {
-                	fixed3 colors = tex2D(_MainTex, i.uv);//*(1+dither);
+                	fixed3 colors = RetroAA(_MainTex, i.uv, _MainTex_TexelSize);
+                	  //tex2D(_MainTex, i.uv);//*(1+dither);
                     // Normalize the vectors to fix interpolation shortening.
                     i.normal = normalize(i.normal);
                     i.lightDir = normalize(i.lightDir); 
@@ -95,16 +113,23 @@
 	                    //dither *= .5;
  					#endif
  					// Put the vector maths in brackets so it doesn't try and do scalar-vector maths where it doesn't need to.
-                   fixed4 c = saturate(UNITY_LIGHTMODEL_AMBIENT*4+i.color.b*10	);
+                   fixed4 c = saturate(UNITY_LIGHTMODEL_AMBIENT*3);//+i.color.b*10	);
                    //fixed amb = ((i.color.r)*(c.r+c.g+c.b)*.33333);
                     //fixed shade = saturate(saturate((NdotL+dither*8)*2500-1250)*.15+.85+i.color.b*2);
                     //fixed2 newCoords = fixed2(lerp(amb,max(NdotL,amb),shadow+dither*4)+dither-(saturate(1-i.screenPos.w-.5)*(1-_DistanceDarken)),i.uv.y);
-                    fixed shade = min(saturate(NdotL*100-60+dither*300)+.45,saturate(NdotL*100-50+dither*50)) ;
-                   
-                    c.rgb = colors * ((c.rgb*(i.color.r*.75+.25)-dither/2)+_LightColor0.rgb*2*min(shadow,shade));//,saturate(NdotL*100)+.375) );
-                    c.rgb += saturate((1-saturate((i.color.g)*(dither*25+1)))*saturate(i.color.r-.75)*UNITY_LIGHTMODEL_AMBIENT*3);
+                    fixed shade = //min(
+                    saturate(floor((NdotL-(1-i.color.r)+dither*2+.125) * _LightingSteps) / (_LightingSteps - 0.5)); // saturate(NdotL*100-60+dither*300)+.45,saturate(NdotL*100-50+dither*50) ) ;
+                    fixed ao = //min(
+                    saturate(floor(((i.color.r)+dither*2+.125) * _AOSteps) / (_AOSteps - 0.5));
+
+                    c.rgb = colors * ((c.rgb*ao*UNITY_LIGHTMODEL_AMBIENT*1.5)+_LightColor0.rgb*3*min(shadow,shade));//,saturate(NdotL*100)+.375) );
+
+                   // c.rgb += (ao*UNITY_LIGHTMODEL_AMBIENT);
+
+
                     //c.rgb *= shade;
-                    c.rgb = lerp(c.rgb, colors.rgb*_Glow, i.color.b);
+                    //c.rgb = lerp(c.rgb, colors.rgb*_Glow, i.color.b);
+                    c.rgb = lerp(c.rgb, (colors.rgb)*_Glow, saturate(ceil((i.color.b+(dither)-.125) * _GlowSteps) / (_GlowSteps - 0.5)) );
                     c.rgb *= _Color.rgb;
                     //c.rgb = saturate(1-i.screenPos.w-.5)*.5;
                     c.a = 1.0;
@@ -123,6 +148,7 @@
             #pragma fragment frag
             #pragma multi_compile_shadowcaster
             #include "UnityCG.cginc"
+
             fixed _PixelSnap;
             struct v2f { 
                 V2F_SHADOW_CASTER;

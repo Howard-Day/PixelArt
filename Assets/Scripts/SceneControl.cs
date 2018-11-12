@@ -100,7 +100,7 @@ public class SceneControl : MonoBehaviour {
 		Sun.transform.localRotation = Quaternion.LerpUnclamped(SunRot,MoonRot, MoonBlend.Evaluate(SmoothTOD)); 
 
 		SceneLight.color = SunTODColor.Evaluate (SmoothTOD);
-		RenderSettings.ambientLight = AmbTODColor.Evaluate (SmoothTOD);//*.75f;
+		RenderSettings.ambientLight = SkyTODColor.Evaluate (SmoothTOD);//*.75f;
 		SceneCamera.backgroundColor = SkyTODColor.Evaluate(SmoothTOD);
 		if (AutoAnimate && Play) {
 			TOD += Time.smoothDeltaTime / 120;
@@ -120,7 +120,7 @@ public class SceneControl : MonoBehaviour {
 		UIScale = SceneCamera.orthographicSize / InitialOrthoSize;	
 		OutlineControl.edgesOnly = Mathf.Lerp (NearFarOutline.x, NearFarOutline.y, Zoom);
 		OutlineControl.edgeExp = Mathf.Lerp (NearFarDetect.x, NearFarDetect.y, Zoom);
-		OutlineControl.edgesColor = AmbTODColor.Evaluate (TOD) * 2f;
+		OutlineControl.edgesColor = AmbTODColor.Evaluate (TOD) * 3f;
 		SceneUI.transform.localScale = UIScale*Vector3.one;
 	}
 
@@ -160,7 +160,7 @@ public class SceneControl : MonoBehaviour {
 				PixelControl.pixelScale = 1;
 		}
 		if (PixelLockToggle.Active) {
-			PixelArt.vertPixelLocking = 1f;
+			PixelArt.vertPixelLocking = 2f;
 		} else {
 			PixelArt.vertPixelLocking = 10000f;
 		}

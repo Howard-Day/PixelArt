@@ -1,0 +1,10 @@
+Version 1.0:
+* Initial Release
+
+Version 1.1:
+* Refactored the RetroAA effect into a .cginc file that makes it easier to include into custom shaders.
+* Added a normals texture property to the "standard" version of the shader shader.
+* Added a new unlit cutout version of the shader that uses Unity's new alpha-to-coverage feature to anti-alias 3D "cut-out" sprites.
+
+Version 1.2:
+* Added a UI variant.
