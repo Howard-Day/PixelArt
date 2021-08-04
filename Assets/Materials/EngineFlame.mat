@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: EngineFlame
   m_Shader: {fileID: 4800000, guid: 0ed1b78b67016b44487beab2757fc8f9, type: 3}
   m_ShaderKeywords: 
@@ -21,7 +22,7 @@ Material:
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 993d295c8caf882418fc9350d051196c, type: 3}
         m_Scale: {x: 0.5, y: 0.5}
-        m_Offset: {x: 0, y: 0}
+        m_Offset: {x: 0.5, y: 0}
     m_Floats:
     - _AlphaClipOffset: 0.5
     - _AlphaDither: 1
