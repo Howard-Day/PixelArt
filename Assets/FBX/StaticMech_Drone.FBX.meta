@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 4bda0f0e983648941afaf439cbd5ca36
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: Box004
     100002: DRIVEFLARE01
@@ -73,6 +73,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
@@ -82,7 +83,7 @@ ModelImporter:
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
-    weldVertices: 1
+    weldVertices: 0
     preserveHierarchy: 0
     indexFormat: 1
     secondaryUVAngleDistortion: 8
@@ -90,11 +91,16 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
-    normalSmoothAngle: 12
-    normalImportMode: 0
-    tangentImportMode: 0
-    normalCalculationMode: 0
+    normalSmoothAngle: 180
+    normalImportMode: 1
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -109,7 +115,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 0

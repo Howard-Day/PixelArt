@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: MultiRamp_Test_01
   m_Shader: {fileID: 4800000, guid: 4ff2d777aee897c418c66012ff86f0da, type: 3}
   m_ShaderKeywords: 
@@ -69,7 +70,7 @@ Material:
     - _Glossiness: 0.5
     - _Glow: 0.5
     - _GlowSteps: 10
-    - _LightingSteps: 2
+    - _LightingSteps: 44
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1

@@ -204,6 +204,16 @@ Shader "Hidden/EdgeDetect" {
 		// inspired by borderlands implementation of popular "sobel filter"
 
 		float centerDepth = Linear01Depth(SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, UnityStereoScreenSpaceUVAdjust(i.uv[1], _CameraDepthTexture_ST)));
+		half4 sample1 = tex2D(_CameraDepthNormalsTexture, UnityStereoScreenSpaceUVAdjust(i.uv[1] + _MainTex_TexelSize.xy * half2(1, 1) * _SampleDistance, _MainTex_ST));
+		half4 sample2 = tex2D(_CameraDepthNormalsTexture, UnityStereoScreenSpaceUVAdjust(i.uv[1] + _MainTex_TexelSize.xy * half2(-1, -1) * _SampleDistance, _MainTex_ST));
+		half4 sample3 = tex2D(_CameraDepthNormalsTexture, UnityStereoScreenSpaceUVAdjust(i.uv[1] + _MainTex_TexelSize.xy * half2(-1, 1) * _SampleDistance, _MainTex_ST));
+		half4 sample4 = tex2D(_CameraDepthNormalsTexture, UnityStereoScreenSpaceUVAdjust(i.uv[1] + _MainTex_TexelSize.xy * half2(1, -1) * _SampleDistance, _MainTex_ST));
+
+		half edge = 1.0;
+
+		edge *= CheckSame(sample1.xy, DecodeFloatRG(sample1.zw), sample2);
+		edge *= CheckSame(sample3.xy, DecodeFloatRG(sample3.zw), sample4);
+
 		float4 depthsDiag;
 		float4 depthsAxis;
 
@@ -239,6 +249,7 @@ Shader "Hidden/EdgeDetect" {
 		float Sobel = sqrt(SobelX * SobelX + SobelY * SobelY);
 
 		Sobel = saturate((1.0-pow(saturate(Sobel), _Exponent))*1000-950);
+		Sobel = edge;
 		float4 colorSobel = lerp(_Color,float4(1,1,1,1),Sobel);
 		float4 col = tex2D(_MainTex, UnityStereoScreenSpaceUVAdjust(i.uv[0].xy, _MainTex_ST));
 		return lerp(colorSobel, _BgColor , saturate(((col.g+col.r+col.b)*.666+(1-_BgFade))-2) ) * col ;

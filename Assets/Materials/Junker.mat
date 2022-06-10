@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Junker
   m_Shader: {fileID: 4800000, guid: 4ff2d777aee897c418c66012ff86f0da, type: 3}
   m_ShaderKeywords: _EMISSION
@@ -55,19 +56,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AOSteps: 3
+    - _AOSteps: 52.35
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DistanceDarken: 0
-    - _Dither: 1
+    - _Dither: -0.56
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Glow: 3
-    - _GlowSteps: 8
-    - _LightingSteps: 2.5
+    - _GlowSteps: 69.44
+    - _LightingSteps: 35.57
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
